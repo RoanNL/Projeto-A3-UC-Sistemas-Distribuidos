@@ -45,7 +45,7 @@ para verificar se está tudo certo digite no cmd ou powershell: `psql --version`
 
    **Lembre de utilizar a sua senha do usuário padrão (postgres)**
 
-    CMD (o que o senhor tiver disponível)
+    CMD/Bash
 
    `psql -U postgres`
 
