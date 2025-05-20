@@ -46,7 +46,6 @@ para verificar se está tudo certo digite no cmd ou powershell: `psql --version`
    **Lembre de utilizar a sua senha do usuário padrão (postgres)**
 
     CMD/Bash
-
    `psql -U postgres`
 
 # 2.2. Criação do Banco de Dados
