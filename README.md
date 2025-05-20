@@ -43,25 +43,32 @@ Antes de iniciar, verifique se os seguintes componentes estão instalados:
 
 para verificar se está tudo certo digite no cmd ou powershell: `psql --version`, se aparecer algo que represente a versão do seu postgreSQL então está tudo certo!!
 
-   **Lembre de utilizar a sua senha do usuário padrão (postgres)**
+   **Lembre de utilizar a sua senha do usuário padrão (postgres) para acessar os proxímos passos, caso não lembre da senha, re-instale o postgreSQL e anote a senha que escolher no instalador, será extremamente necessário para a criação do banco de dados e conexão com a API**  
 
-    CMD/Bash
-   `psql -U postgres`
+**Nota: deixarei em cima dos comando um (CMD/Bash ou algum outro), eles vão representar onde o senhor vai executa-los para dar seguimento e não ficar perdido**
+
+   
 
 # 2.2. Criação do Banco de Dados
-1. Crie o banco de dados:  
+1. Acesse seu usuário do postgreSQL:
+
+   CMD/Bash
+
+   `psql -U postgres`
+
+2. Crie o banco de dados:  
 
     sql
 
    `CREATE DATABASE restaurant_reservations;`
     
-2. Conecte-se ao banco criado:
+3. Conecte-se ao banco criado:
 
     sql
 
    `c restaurant_reservations`
    
-3. Execute o script `schema.sql` para criar as tabelas:  
+4. Execute o script `schema.sql` para criar as tabelas, abra o terminal na pasta do projeto:  
 
    CMD/Bash
 
