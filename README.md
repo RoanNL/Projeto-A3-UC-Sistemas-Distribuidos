@@ -25,35 +25,47 @@ Antes de iniciar, verifique se os seguintes componentes estão instalados:
 # 2. Abra o terminal:  e execute o comando abaixo para acessar o PostgreSQL:
 
    **Lembre de verificar se o path do postgresql etá configurado** 
+
    **Passo a passo para verificar**
 (
+
 **Passo 1** -> Pressione Win + R, digite sysdm.cpl e clique em OK.
+
 **Passo 2** -> Vá para a aba "Avançado" > "Variáveis de Ambiente".
+
 **Passo 3** -> Em "Variáveis do sistema", selecione a variável Path e clique em "Editar".
+
 **Passo 4** -> Clique em "Novo" e adicione o caminho completo da pasta bin:
+
 `C:\Program Files\PostgreSQL\(Versão que instalou do postgreSQL)\bin)`
+
 )
 
 para verificar se está tudo certo digite no cmd ou powershell: `psql --version`, se aparecer algo que represente a versão do seu postgreSQL então está tudo certo!!
 
    **Lembre de utilizar a sua senha do usuário padrão (postgres)**
+
     CMD (o que o senhor tiver disponível)
+
    `psql -U postgres`
 
 # 2.2. Criação do Banco de Dados
 1. Crie o banco de dados:  
 
     sql
+
    `CREATE DATABASE restaurant_reservations;`
     
 2. Conecte-se ao banco criado:
 
     sql
+
    `c restaurant_reservations`
    
 3. Execute o script `schema.sql` para criar as tabelas:  
 
    CMD/Bash
+
    `psql -U postgres -d restaurant_reservations -a -f scripts/schema.sql`
 
 
@@ -72,11 +84,13 @@ Edite o arquivo `pg_hba.conf` (localizado em `/etc/postgresql/[versão]/main/` n
 1. Acesse a pasta `server`:  
    
    CMD/Bash
+
    `cd server`
 
 2. Instale os pacotes necessários:  
    
    CMD/Bash
+
    `npm install`
  
 
@@ -91,6 +105,7 @@ Edite o arquivo `pg_hba.conf` (localizado em `/etc/postgresql/[versão]/main/` n
 2. **Inicie o servidor:**  
    
    CMD/Bash
+
    `npm run dev` 
      
    Saída esperada:  
@@ -120,6 +135,7 @@ Edite o arquivo `pg_hba.conf` (localizado em `/etc/postgresql/[versão]/main/` n
 Verifique se as tabelas foram criadas:  
 
     sql
+
    ` \dt `
 
 Saída esperada:  
@@ -135,11 +151,12 @@ Saída esperada:
 Teste os endpoints com **Postman** ou **curl**:  
 
 CMD/Bash
+
 `curl http://localhost:3000/gerente/garcons` 
 
 Resposta esperada (JSON):  
 
-`[]`
+[] 
 
 ---
 
