@@ -22,7 +22,6 @@ Antes de iniciar, verifique se os seguintes componentes estão instalados:
 
 # 2.1. Configuração Inicial
 # 1. Instale o PostgreSQL: seguindo o instalador do seu sistema operacional.  
-# 2. Abra o terminal:  e execute o comando abaixo para acessar o PostgreSQL:
 
    **Lembre de verificar se o path do postgresql etá configurado** 
 
@@ -50,6 +49,7 @@ para verificar se está tudo certo digite no cmd ou powershell: `psql --version`
    
 
 # 2.2. Criação do Banco de Dados
+# 2. Abra o terminal:  e execute o comando abaixo para acessar o PostgreSQL:
 1. Acesse seu usuário do postgreSQL:
 
    CMD/Bash
