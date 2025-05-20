@@ -24,54 +24,63 @@ Antes de iniciar, verifique se os seguintes componentes estão instalados:
 # 1. Instale o PostgreSQL: seguindo o instalador do seu sistema operacional.  
 # 2. Abra o terminal:  e execute o comando abaixo para acessar o PostgreSQL:
 
+   **Lembre de verificar se o path do postgresql etá configurado** 
+   **Passo a passo para verificar**
+(
+**Passo 1** -> Pressione Win + R, digite sysdm.cpl e clique em OK.
+**Passo 2** -> Vá para a aba "Avançado" > "Variáveis de Ambiente".
+**Passo 3** -> Em "Variáveis do sistema", selecione a variável Path e clique em "Editar".
+**Passo 4** -> Clique em "Novo" e adicione o caminho completo da pasta bin:
+`C:\Program Files\PostgreSQL\(Versão que instalou do postgreSQL)\bin)`
+)
+
+para verificar se está tudo certo digite no cmd ou powershell: `psql --version`, se aparecer algo que represente a versão do seu postgreSQL então está tudo certo!!
+
+   **Lembre de utilizar a sua senha do usuário padrão (postgres)**
     CMD (o que o senhor tiver disponível)
-    (sudo -u postgres psql)
+   `psql -U postgres`
 
 # 2.2. Criação do Banco de Dados
 1. Crie o banco de dados:  
 
     sql
-   (CREATE DATABASE restaurant_reservations;)
+   `CREATE DATABASE restaurant_reservations;`
     
 2. Conecte-se ao banco criado:
 
     sql
-   (\c restaurant_reservations)
+   `c restaurant_reservations`
    
 3. Execute o script `schema.sql` para criar as tabelas:  
 
    CMD/Bash
-   (psql -U postgres -d restaurant_reservations -a -f scripts/schema.sql)
+   `psql -U postgres -d restaurant_reservations -a -f scripts/schema.sql`
 
 
 # 2.3. Configuração de Acesso
 Edite o arquivo `pg_hba.conf` (localizado em `/etc/postgresql/[versão]/main/` no Linux ou `C:\Program Files\PostgreSQL\[versão]\data` no Windows) para permitir conexões:  
 
 # Adicione esta linha:
-(host    all             all             127.0.0.1/32            md5)
+`host    all             all             127.0.0.1/32            md5`
 
-Reinicie o serviço:  
-
-    CMD/ Bash
-    (sudo service postgresql restart)
 
 ---
 
 # 3. Configuração do Backend (Node.js/Express)
 
-# 3.1. Instalação das Dependências
+## 3.1. Instalação das Dependências
 1. Acesse a pasta `server`:  
    
    CMD/Bash
-   (cd server)
+   `cd server`
 
 2. Instale os pacotes necessários:  
    
    CMD/Bash
-   (npm install)
+   `npm install`
  
 
-# 3.2. Configuração do Ambiente
+## 3.2. Configuração do Ambiente
 1. Crie um arquivo `.env` na pasta `server` com:  
    
    ( DATABASE_URL=postgresql://postgres:senha@localhost:5432/restaurant_reservations
@@ -82,20 +91,20 @@ Reinicie o serviço:
 2. **Inicie o servidor:**  
    
    CMD/Bash
-   (npm run dev) 
+   `npm run dev` 
      
    Saída esperada:  
   
-  (
+  ```
    🚀 Servidor rodando na porta 3000
    ✔ Conectado ao PostgreSQL com sucesso!
-  )
+  ```
 
 ---
 
 # 4. Configuração do Frontend
 
-# 4.1. Execução
+## 4.1. Execução
 1. Abra os arquivos HTML diretamente no navegador:  
    - **Atendente:** `frontend/cliente-atendente/index.html`  
    - **Garçom:** `frontend/cliente-garcom/index.html`  
@@ -111,9 +120,7 @@ Reinicie o serviço:
 Verifique se as tabelas foram criadas:  
 
     sql
-    (
-    \dt
-    )
+   ` \dt `
 
 Saída esperada:  
 
@@ -124,19 +131,15 @@ Saída esperada:
 | public  | reservas  | tabela | postgres|
 
 
-# 5.2. API
+## 5.2. API
 Teste os endpoints com **Postman** ou **curl**:  
 
 CMD/Bash
-(
-curl http://localhost:3000/gerente/garcons
-) 
+`curl http://localhost:3000/gerente/garcons` 
 
 Resposta esperada (JSON):  
 
-(
-[]
-)
+`[]`
 
 ---
 
