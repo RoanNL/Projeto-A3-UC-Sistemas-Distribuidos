@@ -28,7 +28,7 @@ Antes de iniciar, verifique se os seguintes componentes estão instalados:
    **Passo a passo para verificar**
 (
 
-**Passo 1** -> Pressione Win + R, digite sysdm.cpl e clique em OK.
+**Passo 1** -> Pressione Win + R, digite `sysdm.cpl` e clique em OK.
 
 **Passo 2** -> Vá para a aba "Avançado" > "Variáveis de Ambiente".
 
