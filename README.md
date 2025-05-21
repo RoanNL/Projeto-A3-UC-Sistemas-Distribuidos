@@ -66,7 +66,7 @@ para verificar se está tudo certo digite no cmd ou powershell: `psql --version`
 
     sql
 
-   `c restaurant_reservations`
+   `\c restaurant_reservations`
    
 4. Execute o script `schema.sql` para criar as tabelas, abra o terminal na pasta do projeto:  
 
