@@ -1,10 +1,12 @@
 import { Request, Response } from 'express';
 import { pool } from '../database/db';
 
+// Confirmar reserva
 export const confirmarReserva = async (req: Request, res: Response) => {
+
+  // Verifica se o id da reserva foi fornecido
   const { id } = req.params;
   const { nome_garcom } = req.body;
-
   try {
     const resultado = await pool.query(
       `SELECT * FROM reservas WHERE id = $1 AND status = 'reservada'`,
@@ -14,7 +16,6 @@ export const confirmarReserva = async (req: Request, res: Response) => {
     if (resultado.rows.length === 0) {
       return res.status(404).json({ erro: 'Reserva não encontrada ou já confirmada/cancelada.' });
     }
-
     await pool.query(
       `UPDATE reservas 
        SET status = 'confirmada', garcom_responsavel = $1, mesa_ocupada = TRUE
@@ -29,6 +30,7 @@ export const confirmarReserva = async (req: Request, res: Response) => {
   }
 };
 
+// Liberar mesa
 export const liberarMesa = async (req: Request, res: Response) => {
   const { numero_mesa } = req.params;
 
@@ -47,6 +49,8 @@ export const liberarMesa = async (req: Request, res: Response) => {
   }
 };
 
+
+// Obter status das mesas
 export const getMesas = async (req: Request, res: Response) => {
   try {
     const resultado = await pool.query(
@@ -75,12 +79,12 @@ export const getMesas = async (req: Request, res: Response) => {
 };
 
 export const cadastrarGarcom = async (req: Request, res: Response) => {
-  const { nome } = req.body;
 
+  // Verifica se o nome foi fornecido
+  const { nome } = req.body;
   if (!nome || typeof nome !== 'string') {
     return res.status(400).json({ erro: 'Nome do garçom é obrigatório' });
   }
-
   try {
     // Verifica se já existe um garçom ATIVO com o mesmo nome (case insensitive)
     const existe = await pool.query(
@@ -123,6 +127,7 @@ export const cadastrarGarcom = async (req: Request, res: Response) => {
   }
 };
 
+// Listar todos os garçons ativos
 export const listarGarcons = async (req: Request, res: Response) => {
   try {
     // Lista apenas garçons ativos

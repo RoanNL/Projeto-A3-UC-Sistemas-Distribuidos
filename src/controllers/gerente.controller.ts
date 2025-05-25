@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { pool } from '../database/db';
 
-// 1. Reservas atendidas ou não em um período
+// Reservas atendidas ou não em um período
 export const relatorioPorPeriodo = async (req: Request, res: Response) => {
   const { inicio, fim, status } = req.query;
 
@@ -27,16 +27,17 @@ export const relatorioPorPeriodo = async (req: Request, res: Response) => {
       ORDER BY data, hora
     `;
 
+    // Verifica se o status foi fornecido
     const params = status ? [inicio, fim, status] : [inicio, fim];
     
     const resultado = await pool.query(query, params);
 
+    // Verifica se houve resultados
     if (resultado.rows.length === 0) {
       return res.status(404).json({ 
         mensagem: 'Nenhuma reserva encontrada para o critério selecionado.' 
       });
     }
-
     res.json(resultado.rows);
   } catch (error) {
     console.error('Erro no relatório:', error);
@@ -44,10 +45,11 @@ export const relatorioPorPeriodo = async (req: Request, res: Response) => {
   }
 };
 
-// 2. Reservas feitas para uma determinada mesa
+// Reservas feitas para uma determinada mesa
 export const relatorioPorMesa = async (req: Request, res: Response) => {
-  const { numero } = req.params;
 
+  // Verifica se o numero da mesa foi fornecido
+  const { numero } = req.params;
   try {
     const resultado = await pool.query(
       `SELECT * FROM reservas WHERE numero_mesa = $1`,
@@ -64,12 +66,12 @@ export const relatorioPorMesa = async (req: Request, res: Response) => {
   }
 };
 
-// 3. Mesas confirmadas por garçom
+// Mesas confirmadas por garçom
 export const relatorioPorGarcom = async (req: Request, res: Response) => {
+  
+  // Verifica se o garçom existe
   const { nome } = req.params;
-
   try {
-    // Verifica se o garçom existe
     const garcomExiste = await pool.query(
       `SELECT * FROM garcons WHERE nome = $1`,
       [nome]
@@ -100,13 +102,14 @@ export const relatorioPorGarcom = async (req: Request, res: Response) => {
   }
 };
 
+// Cadastrar um novo garçom
 export const cadastrarGarcom = async (req: Request, res: Response) => {
-  const { nome } = req.body;
 
+  // Verifica se o nome foi fornecido
+  const { nome } = req.body;
   if (!nome || typeof nome !== 'string') {
     return res.status(400).json({ erro: 'Nome do garçom é obrigatório' });
   }
-
   try {
     // Verifica se já existe (case insensitive)
     const existe = await pool.query(
@@ -131,12 +134,12 @@ export const cadastrarGarcom = async (req: Request, res: Response) => {
   }
 };
 
+// Listar todos os garçons ativos
 export const listarGarcons = async (req: Request, res: Response) => {
   try {
     const result = await pool.query(
       'SELECT id, nome FROM garcons WHERE ativo = true ORDER BY nome'
     );
-
     console.log('Garçons encontrados:', result.rows);
     res.json(result.rows);
 
@@ -145,6 +148,8 @@ export const listarGarcons = async (req: Request, res: Response) => {
     res.status(500).json({ erro: 'Erro ao listar garçons' });
   }
 };
+
+// Excluir um garçom
 const excluirGarcom = async (req: Request, res: Response) => {
   const { id } = req.params;
 

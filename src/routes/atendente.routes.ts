@@ -3,9 +3,12 @@ import { criarReserva, cancelarReserva } from '../controllers/atendente.controll
 
 const router = Router();
 
+// rota para criar uma nova reserva
 router.post('/reservas', async (req, res) => {
   await criarReserva(req, res);
 });
+
+// rota para cancelar uma reserva
 router.delete('/reservas/:id', async (req, res) => {
   await cancelarReserva(req, res);
 });

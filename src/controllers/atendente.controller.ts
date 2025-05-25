@@ -2,12 +2,14 @@ import { Request, Response } from 'express';
 import { pool } from '../database/db';
 
 export const criarReserva = async (req: Request, res: Response) => {
-  const { data, hora, numero_mesa, qtd_pessoas, nome_responsavel } = req.body;
 
+  // Verifica se os campos obrigatórios foram fornecidos
+  const { data, hora, numero_mesa, qtd_pessoas, nome_responsavel } = req.body;
   if (!data || !hora || !numero_mesa || !qtd_pessoas || !nome_responsavel) {
     return res.status(400).json({ erro: 'Todos os campos são obrigatórios.' });
   }
 
+  // Verifica se a data é posterior ao dia atual  
   const dataReserva = new Date(data);
   const hoje = new Date();
   hoje.setHours(0, 0, 0, 0); // Ignorar horas para comparação
@@ -65,7 +67,7 @@ export const cancelarReserva = async (req: Request, res: Response) => {
       });
     }
 
-    // Alteração importante: Atualizar status para 'cancelada' em vez de deletar
+    // Atualizar status para 'cancelada' em vez de deletar
     await pool.query(
       `UPDATE reservas SET status = 'cancelada' WHERE id = $1`,
       [id]

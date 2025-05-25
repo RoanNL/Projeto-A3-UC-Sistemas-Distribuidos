@@ -10,29 +10,32 @@ import {
 
 const router = Router();
 
-// GET /gerente/relatorio/periodo?inicio=YYYY-MM-DD&fim=YYYY-MM-DD&status=reservada|confirmada|cancelada
+// rota para pegar as reservas por periodo
 router.get('/relatorio/periodo', async (req, res) => {
-  // Agora aceita consultas sem status específico
   await relatorioPorPeriodo(req, res);
 });
 
-// GET /gerente/relatorio/mesa/1
+// rota para pegar as reservas por mesa
 router.get('/relatorio/mesa/:numero', async (req, res) => {
   await relatorioPorMesa(req, res);
 });
 
-// GET /gerente/relatorio/garcom/Carlos
+// rota para pegar as reservas por garcom
 router.get('/relatorio/garcom/:nome', async (req, res) => {
   await relatorioPorGarcom(req, res);
 });
 
+// rota para cadastrar um novo garcom
 router.post('/garcons', async (req, res) => {
   await cadastrarGarcom(req, res);
 });
 
+// rota para excluir um garcom
 router.delete('/garcons/:id', async (req, res) => {
   await excluirGarcom(req, res);
 });
+
+// rota para listar todos os garcons
 router.get('/garcons', listarGarcons);
 
 export default router;
