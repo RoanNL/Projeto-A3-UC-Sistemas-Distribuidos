@@ -35,7 +35,7 @@ CREATE INDEX IF NOT EXISTS idx_reservas_mesa ON reservas(numero_mesa);
 CREATE INDEX IF NOT EXISTS idx_reservas_garcom ON reservas(garcom_responsavel);
 CREATE INDEX IF NOT EXISTS idx_garcons_nome ON garcons(nome);
 
--- Dados iniciais (opcional)
+-- Dados iniciais
 INSERT INTO garcons (nome) VALUES 
 ('Roan'),
 ('Alice'),
@@ -43,7 +43,7 @@ INSERT INTO garcons (nome) VALUES
 ('Catarina'),
 ON CONFLICT (nome) DO NOTHING;
 
--- Visualização para relatórios (opcional)
+-- Visualização para relatórios 
 CREATE OR REPLACE VIEW view_reservas_completas AS
 SELECT 
     r.id,
