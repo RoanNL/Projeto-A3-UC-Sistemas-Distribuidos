@@ -76,7 +76,7 @@ para verificar se está tudo certo digite no cmd ou powershell: `psql --version`
 
 
 # 2.3. Configuração de Acesso
-Edite o arquivo `pg_hba.conf` (localizado em `/etc/postgresql/[versão]/main/` no Linux ou `C:\Program Files\PostgreSQL\[versão]\data` no Windows) para permitir conexões:  
+Edite o arquivo `pg_hba.conf` ( no linux fica localizado em `/etc/postgresql/[versão]/main/` | no windows fica localizado em `C:\Program Files\PostgreSQL\[versão]\data`) para permitir conexões:  
 
 # Adicione esta linha:
 `host    all             all             127.0.0.1/32            md5`
@@ -87,7 +87,7 @@ Edite o arquivo `pg_hba.conf` (localizado em `/etc/postgresql/[versão]/main/` n
 # 3. Configuração do Backend (Node.js/Express)
 
 ## 3.1. Instalação das Dependências
-1. Acesse a pasta `server`:  
+1. Acesse a pasta raiz do projeto:  
    
    CMD/Bash
 
@@ -101,7 +101,7 @@ Edite o arquivo `pg_hba.conf` (localizado em `/etc/postgresql/[versão]/main/` n
  
 
 ## 3.2. Configuração do Ambiente
-1. Crie um arquivo `.env` na pasta `server` com:  
+1. Crie um arquivo `.env` na pasta raiz do projeto com:  
    
    ( DATABASE_URL=postgresql://postgres:senha@localhost:5432/restaurant_reservations
    PORT=3000 )
