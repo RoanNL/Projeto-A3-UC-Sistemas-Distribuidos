@@ -6,14 +6,6 @@ CREATE TABLE IF NOT EXISTS garcons (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Nova tabela de mesas
-CREATE TABLE IF NOT EXISTS mesas (
-    numero INTEGER PRIMARY KEY CHECK (numero BETWEEN 1 AND 20),
-    ocupada BOOLEAN NOT NULL DEFAULT FALSE,
-    reserva_id INTEGER,
-    FOREIGN KEY (reserva_id) REFERENCES reservas(id) ON DELETE SET NULL
-);
-
 -- Tabela de reservas
 CREATE TABLE IF NOT EXISTS reservas (
     id SERIAL PRIMARY KEY,
@@ -28,6 +20,14 @@ CREATE TABLE IF NOT EXISTS reservas (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (garcom_responsavel) REFERENCES garcons(nome) ON DELETE SET NULL,
     FOREIGN KEY (numero_mesa) REFERENCES mesas(numero)
+);
+
+-- Nova tabela de mesas
+CREATE TABLE IF NOT EXISTS mesas (
+    numero INTEGER PRIMARY KEY CHECK (numero BETWEEN 1 AND 20),
+    ocupada BOOLEAN NOT NULL DEFAULT FALSE,
+    reserva_id INTEGER,
+    FOREIGN KEY (reserva_id) REFERENCES reservas(id) ON DELETE SET NULL
 );
 
 
