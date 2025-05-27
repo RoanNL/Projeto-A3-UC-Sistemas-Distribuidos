@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS mesas (
     FOREIGN KEY (reserva_id) REFERENCES reservas(id) ON DELETE SET NULL
 );
 
--- Tabela de reservas (atualizada)
+-- Tabela de reservas
 CREATE TABLE IF NOT EXISTS reservas (
     id SERIAL PRIMARY KEY,
     data DATE NOT NULL,
