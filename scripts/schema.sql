@@ -1,4 +1,4 @@
--- Tabela de garçons (mantida)
+-- Tabela de garçons
 CREATE TABLE IF NOT EXISTS garcons (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL UNIQUE,
