@@ -9,7 +9,7 @@ router.post('/reservas', async (req, res) => {
 });
 
 // rota para cancelar uma reserva
-router.delete('/reservas/:id', async (req, res) => {
+router.post('/reservas/cancelar', async (req, res) => {
   await cancelarReserva(req, res);
 });
 

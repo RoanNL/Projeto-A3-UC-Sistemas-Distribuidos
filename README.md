@@ -23,7 +23,7 @@ Antes de iniciar, verifique se os seguintes componentes estão instalados:
 # 2.1. Configuração Inicial
 # 1. Instale o PostgreSQL: seguindo o instalador do seu sistema operacional.  
 
-   **Lembre de verificar se o path do postgresql etá configurado** 
+   **Lembre de verificar se o path do postgresql está configurado** 
 
    **Passo a passo para verificar**
 (

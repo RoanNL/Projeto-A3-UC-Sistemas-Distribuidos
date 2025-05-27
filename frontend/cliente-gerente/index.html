@@ -113,46 +113,41 @@
             font-style: italic;
         }
 
-        /* Estilos para a tabela de garçons */
-        .tabela-garcons {
+        .report-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
+            margin-top: 20px;
         }
 
-        .tabela-garcons th,
-        .tabela-garcons td {
-            padding: 12px 15px;
+        .garcom-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .garcom-section h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .report-table th,
+        .report-table td {
+            padding: 10px 12px;
             border: 1px solid #ddd;
             text-align: left;
         }
 
-        .tabela-garcons th {
-            background-color: #f8f9fa;
-            font-weight: 600;
-        }
-
-        /* Estilo do botão de excluir */
-        .btn-excluir {
-            background-color: #e74c3c;
+        .report-table th {
+            background-color: #4CAF50;
             color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .btn-excluir:hover {
-            background-color: #c0392b;
-            transform: translateY(-1px);
-        }
-
-        .btn-excluir i {
-            font-size: 14px;
         }
     </style>
 </head>
@@ -174,17 +169,10 @@
                     <label for="fim">Data Fim:</label>
                     <input type="date" id="fim" required>
                 </div>
-                <div class="form-group">
-                    <label for="status">Status:</label>
-                    <select id="status" required>
-                        <option value="reservada">Reservada</option>
-                        <option value="confirmada">Confirmada</option>
-                        <option value="cancelada">Cancelada</option>
-                    </select>
-                </div>
                 <button type="submit" class="btn btn-primary">Gerar Relatório</button>
             </form>
         </div>
+
 
         <div class="card">
             <h2>Relatório por Mesa</h2>
@@ -200,29 +188,13 @@
         <div class="card">
             <h2>Relatório por Garçom</h2>
             <form id="form-garcom">
-                <div class="form-group">
-                    <label for="nome-garcom">Nome do Garçom:</label>
-                    <input type="text" id="nome-garcom" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Gerar Relatório</button>
+                <p>Mostra apenas reservas confirmadas</p>
+                <button id="btn-relatorio-garcom" class="btn btn-primary">
+                    Gerar Relatório
+                </button>
             </form>
         </div>
 
-        <div class="card">
-            <h2>Cadastrar Novo Garçom</h2>
-            <form id="form-cadastrar-garcom">
-                <div class="form-group">
-                    <label for="nome-garcom-cadastro">Nome do Garçom:</label>
-                    <input type="text" id="nome-garcom-cadastro" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Cadastrar</button>
-            </form>
-        </div>
-
-        <div class="card">
-            <h2>Garçons Cadastrados</h2>
-            <div id="lista-garcons"></div>
-        </div>
 
         <div id="resultado" class="table-responsive"></div>
 
