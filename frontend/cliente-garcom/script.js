@@ -1,5 +1,6 @@
 const API_BASE_URL = 'http://localhost:3000/garcom';
 let mesasData = [];
+let refreshInterval;
 
 // Função para carregar o status das mesas
 async function carregarMesas() {
@@ -24,7 +25,7 @@ async function carregarMesas() {
                 infoReserva = `
                     <div class="info-reserva">
                         <p>Cliente: ${mesa.cliente}</p>
-                        <p>${mesa.data} às ${mesa.hora}</p>
+                        <p>${formatarData(mesa.data)} às ${mesa.hora}</p>
                         <p>Status: ${mesa.status.toUpperCase()}</p>
                         ${mesa.status === 'confirmada' ? 
                           `<button onclick="liberarMesa(${mesa.numero_mesa})">Liberar Mesa</button>` : ''}
@@ -49,6 +50,7 @@ async function carregarMesas() {
     }
 }
 
+// Função para exibir mensagens
 function showMessage(message, type) {
     const msgDiv = document.getElementById('mensagem');
     msgDiv.textContent = message;
@@ -61,26 +63,123 @@ function showMessage(message, type) {
 }
 
 // Função para liberar mesa
-window.liberarMesa = async (numeroMesa) => {
-    if (confirm(`Liberar mesa ${numeroMesa}?`)) {
-        try {
-            const response = await fetch(`${API_BASE_URL}/mesas/${numeroMesa}/liberar`, {
-                method: 'PUT'
-            });
+// Função para liberar mesa
+async function liberarMesa(numeroMesa) {
+    try {
+        // Mostra feedback visual imediato
+        const mesaElement = document.getElementById(`mesa-${numeroMesa}`);
+        mesaElement.classList.add('processando');
+        
+        // Pausa o auto-refresh durante a operação
+        clearInterval(refreshInterval);
+        
+        const response = await fetch(`${API_BASE_URL}/garcom/mesas/${numeroMesa}/liberar`, {
+            method: 'PUT'
+        });
 
-            const { success, message, error } = await response.json();
+        const data = await response.json();
 
-            if (!success) {
-                throw new Error(error || 'Erro ao liberar mesa');
-            }
-
-            showMessage(message, 'success');
-            carregarMesas();
-        } catch (error) {
-            showMessage(error.message, 'error');
+        if (!response.ok) {
+            throw new Error(data.error || 'Erro ao liberar mesa');
         }
+
+        showMessage(data.message, 'success');
+        
+        // Atualização manual imediata
+        mesaElement.classList.remove('ocupada', 'processando');
+        mesaElement.innerHTML = `
+            <div>Mesa ${numeroMesa}</div>
+            <div>LIVRE</div>
+        `;
+
+    } catch (error) {
+        showMessage(error.message, 'error');
+        console.error('Erro:', error);
+        
+        // Restaura o estado anterior visualmente
+        const mesaElement = document.getElementById(`mesa-${numeroMesa}`);
+        mesaElement.classList.remove('processando');
+        mesaElement.innerHTML = `
+            <div>Mesa ${numeroMesa}</div>
+            <div>OCUPADA</div>
+            <div>Liberação falhou</div>
+        `;
+        
+    } finally {
+        // Reinicia o auto-refresh depois de 15 segundos
+        setTimeout(() => {
+            refreshInterval = setInterval(carregarMesas, 10000);
+        }, 15000);
+        
+        // Força uma atualização manual após 3 segundos
+        setTimeout(carregarMesas, 3000);
     }
-};
+}
+
+// Inicia o auto-refresh quando a página carrega
+document.addEventListener('DOMContentLoaded', () => {
+    carregarMesas();
+    refreshInterval = setInterval(carregarMesas, 10000);
+});
+
+// Função para liberar mesa
+async function liberarMesa(numeroMesa) {
+    try {
+        // Mostra feedback visual imediato
+        const mesaElement = document.getElementById(`mesa-${numeroMesa}`);
+        mesaElement.classList.add('processando');
+        
+        // Pausa o auto-refresh durante a operação
+        clearInterval(refreshInterval);
+        
+        const response = await fetch(`${API_BASE_URL}/mesas/${numeroMesa}/liberar`, {
+            method: 'PUT'
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || 'Erro ao liberar mesa');
+        }
+
+        showMessage(data.message, 'success');
+        
+        // Atualização manual imediata
+        mesaElement.classList.remove('ocupada', 'processando');
+        mesaElement.innerHTML = `
+            <div>Mesa ${numeroMesa}</div>
+            <div>LIVRE</div>
+        `;
+
+    } catch (error) {
+        showMessage(error.message, 'error');
+        console.error('Erro:', error);
+        
+        // Restaura o estado anterior visualmente
+        const mesaElement = document.getElementById(`mesa-${numeroMesa}`);
+        mesaElement.classList.remove('processando');
+        mesaElement.innerHTML = `
+            <div>Mesa ${numeroMesa}</div>
+            <div>OCUPADA</div>
+            <div>Liberação falhou</div>
+        `;
+        
+    } finally {
+        // Reinicia o auto-refresh depois de 15 segundos
+        setTimeout(() => {
+            refreshInterval = setInterval(carregarMesas, 10000);
+        }, 15000);
+        
+        // Força uma atualização manual após 3 segundos
+        setTimeout(carregarMesas, 3000);
+    }
+}
+
+// Inicia o auto-refresh quando a página carrega
+document.addEventListener('DOMContentLoaded', () => {
+    carregarMesas();
+    refreshInterval = setInterval(carregarMesas, 10000);
+});
 
 // Confirmar reserva 
 document.getElementById('form-confirmar').addEventListener('submit', async (e) => {
@@ -115,15 +214,11 @@ document.getElementById('form-confirmar').addEventListener('submit', async (e) =
     }
 });
 
-function showMessage(message, type) {
-    const msgDiv = document.getElementById('mensagem');
-    msgDiv.textContent = message;
-    msgDiv.className = type;
-    msgDiv.style.display = 'block';
-
-    setTimeout(() => {
-        msgDiv.style.display = 'none';
-    }, 5000);
+// Função para formatar a data no padrão abrasileirado
+function formatarData(dataISO) {
+    if (!dataISO) return '';
+    const [ano, mes, dia] = dataISO.split('T')[0].split('-');
+    return `${dia}/${mes}/${ano}`;
 }
 
 // Carrega as mesas inicialmente e a cada 10 segundos

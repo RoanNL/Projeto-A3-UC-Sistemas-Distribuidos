@@ -36,6 +36,10 @@ ALTER TABLE reservas ADD CONSTRAINT fk_reservas_mesa
 ALTER TABLE reservas ADD CONSTRAINT fk_reservas_garcom 
     FOREIGN KEY (garcom_responsavel) REFERENCES garcons(nome) ON DELETE SET NULL;
 
+-- Insere as 20 mesas iniciais
+INSERT INTO mesas (numero)
+SELECT generate_series(1, 20)
+ON CONFLICT (numero) DO NOTHING;
 
 -- Cria os índices
 CREATE INDEX IF NOT EXISTS idx_reservas_data ON reservas(data);

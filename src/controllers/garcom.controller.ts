@@ -49,38 +49,55 @@ export const liberarMesa = async (req: Request, res: Response) => {
   const { numero_mesa } = req.params;
 
   try {
-      await pool.query('BEGIN');
+    await pool.query('BEGIN');
 
-      // Libera a mesa
-      const result = await pool.query(
-          `UPDATE mesas 
-           SET ocupada = FALSE, reserva_id = NULL
-           WHERE numero = $1
-           RETURNING *`,
-          [numero_mesa]
-      );
+    // Verifica se a mesa existe e está ocupada
+    const mesa = await pool.query(
+        `SELECT * FROM mesas 
+         WHERE numero = $1 AND ocupada = TRUE
+         FOR UPDATE`,
+        [numero_mesa]
+    );
 
-      if (result.rows.length === 0) {
-          await pool.query('ROLLBACK');
-          return res.status(404).json({ erro: 'Mesa não encontrada' });
-      }
+    if (mesa.rows.length === 0) {
+        await pool.query('ROLLBACK');
+        return res.status(404).json({
+            success: false,
+            error: `Mesa ${numero_mesa} não está ocupada ou não existe`
+        });
+    }
 
-      // Atualiza o status da reserva
-      await pool.query(
-          `UPDATE reservas 
-           SET status = 'finalizada'
-           WHERE id = $1`,
-          [result.rows[0].reserva_id]
-      );
+    // Libera a mesa
+    await pool.query(
+        `UPDATE mesas 
+         SET ocupada = FALSE, reserva_id = NULL
+         WHERE numero = $1`,
+        [numero_mesa]
+    );
 
-      await pool.query('COMMIT');
-      res.json({ mensagem: `Mesa ${numero_mesa} liberada com sucesso` });
+    // Atualiza o status da reserva
+    await pool.query(
+        `UPDATE reservas 
+         SET status = 'finalizada'
+         WHERE id = $1`,
+        [mesa.rows[0].reserva_id]
+    );
 
-  } catch (error) {
-      await pool.query('ROLLBACK');
-      console.error(error);
-      res.status(500).json({ erro: 'Erro ao liberar mesa' });
-  }
+    await pool.query('COMMIT');
+
+    res.json({
+        success: true,
+        message: `Mesa ${numero_mesa} liberada com sucesso`
+    });
+
+} catch (error) {
+    await pool.query('ROLLBACK');
+    console.error('Erro ao liberar mesa:', error);
+    res.status(500).json({
+        success: false,
+        error: 'Erro ao liberar mesa',
+    });
+}
 };
 
 // Obter status das mesas
