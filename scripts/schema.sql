@@ -1,4 +1,4 @@
--- Tabela de garçons
+-- Tabela de garçons 
 CREATE TABLE IF NOT EXISTS garcons (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL UNIQUE,
@@ -6,7 +6,15 @@ CREATE TABLE IF NOT EXISTS garcons (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tabela de reservas
+-- Nova tabela de mesas
+CREATE TABLE IF NOT EXISTS mesas (
+    numero INTEGER PRIMARY KEY CHECK (numero BETWEEN 1 AND 20),
+    ocupada BOOLEAN NOT NULL DEFAULT FALSE,
+    reserva_id INTEGER,
+    FOREIGN KEY (reserva_id) REFERENCES reservas(id) ON DELETE SET NULL
+);
+
+-- Tabela de reservas 
 CREATE TABLE IF NOT EXISTS reservas (
     id SERIAL PRIMARY KEY,
     data DATE NOT NULL,
@@ -22,14 +30,10 @@ CREATE TABLE IF NOT EXISTS reservas (
     FOREIGN KEY (numero_mesa) REFERENCES mesas(numero)
 );
 
--- Nova tabela de mesas
-CREATE TABLE IF NOT EXISTS mesas (
-    numero INTEGER PRIMARY KEY CHECK (numero BETWEEN 1 AND 20),
-    ocupada BOOLEAN NOT NULL DEFAULT FALSE,
-    reserva_id INTEGER,
-    FOREIGN KEY (reserva_id) REFERENCES reservas(id) ON DELETE SET NULL
-);
-
+-- Inserção das 20 mesas iniciais
+INSERT INTO mesas (numero)
+SELECT generate_series(1, 20)
+ON CONFLICT (numero) DO NOTHING;
 
 -- Índices atualizados
 CREATE INDEX IF NOT EXISTS idx_reservas_data ON reservas(data);
