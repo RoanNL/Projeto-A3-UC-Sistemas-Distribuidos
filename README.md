@@ -150,6 +150,7 @@ Saída esperada:
 | Esquema |   Nome    | Tipo   |  Dono|
 |---------|-----------|--------|--------|
 | public  | garcons   | tabela | postgres|
+| public  | mesas     | tabela | postgres|
 | public  | reservas  | tabela | postgres|
 
 
