@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+.barlow-condensed-regular {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+/* Estilos específicos da página principal */
+       .hero {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+            url('assets/papillon.jpg');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        text-align: center;
+        padding: 100px 20px;
+        margin-bottom: 40px;
+        font-family: "Barlow Condensed";
+    }
+
+    .hero h1 {
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 3rem;
+        margin-bottom: 20px;
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+        max-width: 800px;
+        margin: 0 auto 30px;
+    }
+
+    .user-cards {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .user-card {
+        background: #d0c6ac;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        padding: 30px;
+        text-align: center;
+        transition: transform 0.3s;
+    }
+
+    .user-card:hover {
+        transform: translateY(-10px);
+    }
+
+    .user-card h2 {
+        color: #333;
+        margin-bottom: 15px;
+    }
+
+    .user-card p {
+        color: #666;
+        margin-bottom: 25px;
+    }
+
+    .btn {
+        display: inline-block;
+        background-color: #4CAF50;
+        color: rgb(254, 253, 253);
+        padding: 12px 25px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+        background-color: #45a049;
+    }
+
+    .atendente {
+        border-top: 5px solid #000000;
+    }
+
+    .garcom {
+        border-top: 5px solid #000000;
+    }
+
+    .gerente {
+        border-top: 5px solid #000000;
+    }
+
+    footer {
+        text-align: center;
+        margin-top: 80px;
+        padding: 20px;
+        background-color: #333;
+        color: white;
+    }

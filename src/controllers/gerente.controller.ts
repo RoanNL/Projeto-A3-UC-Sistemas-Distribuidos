@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { pool } from '../database/db';
+import { dbPool } from '../database/db';
 
 // Reservas atendidas ou não em um período
 export const relatorioPorPeriodo = async (req: Request, res: Response) => {
@@ -17,7 +17,7 @@ export const relatorioPorPeriodo = async (req: Request, res: Response) => {
   }
 
   try {
-    const resultado = await pool.query(
+    const resultado = await dbPool.query(
         `SELECT 
             r.id,
             r.data,
@@ -55,7 +55,7 @@ export const relatorioPorMesa = async (req: Request, res: Response) => {
   // Verifica se o numero da mesa foi fornecido
   const { numero } = req.params;
   try {
-    const resultado = await pool.query(
+    const resultado = await dbPool.query(
       `SELECT * FROM reservas WHERE numero_mesa = $1`,
       [numero]
     );
@@ -72,7 +72,6 @@ export const relatorioPorMesa = async (req: Request, res: Response) => {
 
 // Reservas feitas pelo cliente garçom
 export const relatorioPorGarcom = async (req: Request, res: Response) => {
-  req.setTimeout(10000); // 10 segundos
 
   try {
       // Consulta otimizada apenas para reservas confirmadas
@@ -92,7 +91,7 @@ export const relatorioPorGarcom = async (req: Request, res: Response) => {
           ORDER BY r.nome_responsavel, r.data
           LIMIT 1000`; 
 
-      const client = await pool.connect();
+      const client = await dbPool.connect();
       
       try {
           const resultado = await client.query(query);

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Reservas - Restaurante</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos específicos da página principal */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+            margin-bottom: 40px;
+        }
+
+        .hero h1 {
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        .user-cards {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .user-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .user-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .user-card h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .user-card p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .atendente {
+            border-top: 5px solid #3498db;
+        }
+
+        .garcom {
+            border-top: 5px solid #e74c3c;
+        }
+
+        .gerente {
+            border-top: 5px solid #f39c12;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 80px;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hero" >
+        <h1>Sistema de Reservas</h1>
+        <p>Gerencie as reservas do seu restaurante de forma eficiente e organizada</p>
+    </div>
+
+    <div class="user-cards" >
+        <div class="user-card atendente">
+            <h2>Atendente</h2>
+            <p>Cadastre novas reservas ou cancele reservas existentes</p>
+            <a href="cliente-atendente/index.html" class="btn">Acessar</a>
+        </div>
+
+        <div class="user-card garcom">
+            <h2>Garçom</h2>
+            <p>Confirme a ocupação das mesas reservadas</p>
+            <a href="cliente-garcom/index.html" class="btn">Acessar</a>
+        </div>
+
+        <div class="user-card gerente">
+            <h2>Gerente</h2>
+            <p>Gere relatórios e acompanhe o andamento das reservas</p>
+            <a href="cliente-gerente/index.html" class="btn">Acessar</a>
+        </div>
+    </div>
+
+    <footer >
+        <p>Sistema de Reservas - Restaurante &copy; 2023</p>
+    </footer>
+</body>
+
+</html>

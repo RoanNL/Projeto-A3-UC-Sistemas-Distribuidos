@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { pool } from '../database/db';
+import { dbPool } from '../database/db';
 
 // Criar reserva
 export const criarReserva = async (req: Request, res: Response) => {
@@ -7,7 +7,7 @@ export const criarReserva = async (req: Request, res: Response) => {
 
   try {
       // Verifica se a mesa existe e está disponível
-      const mesa = await pool.query(
+      const mesa = await dbPool.query(
           `SELECT * FROM mesas WHERE numero = $1 FOR UPDATE`,
           [numero_mesa]
       );
@@ -20,11 +20,8 @@ export const criarReserva = async (req: Request, res: Response) => {
           return res.status(400).json({ erro: 'Mesa já ocupada' });
       }
 
-      // Inicia transação
-      await pool.query('BEGIN');
-
       // Cria a reserva
-      const reserva = await pool.query(
+      const reserva = await dbPool.query(
           `INSERT INTO reservas 
            (data, hora, numero_mesa, qtd_pessoas, nome_responsavel, status)
            VALUES ($1, $2, $3, $4, $5, 'reservada')
@@ -33,19 +30,15 @@ export const criarReserva = async (req: Request, res: Response) => {
       );
 
       // Atualiza o status da mesa
-      await pool.query(
+      await dbPool.query(
           `UPDATE mesas 
            SET ocupada = TRUE, reserva_id = $1
            WHERE numero = $2`,
           [reserva.rows[0].id, numero_mesa]
       );
 
-      await pool.query('COMMIT');
       res.status(201).json(reserva.rows[0]);
-
-      
   } catch (error) {
-      await pool.query('ROLLBACK');
       console.error(error);
       res.status(500).json({ erro: 'Erro ao criar reserva' });
   }
@@ -56,10 +49,9 @@ export const cancelarReserva = async (req: Request, res: Response) => {
     const { numero_mesa } = req.body;
 
     try {
-        await pool.query('BEGIN'); // Inicia transação
 
         // Encontra a reserva
-        const reserva = await pool.query(
+        const reserva = await dbPool.query(
             `SELECT id FROM reservas 
              WHERE numero_mesa = $1 
              AND status = 'reservada'`,
@@ -67,7 +59,6 @@ export const cancelarReserva = async (req: Request, res: Response) => {
         );
 
         if (reserva.rows.length === 0) {
-            await pool.query('ROLLBACK');
             return res.status(404).json({
                 success: false,
                 error: `Nenhuma reserva encontrada para a mesa ${numero_mesa}`
@@ -77,7 +68,7 @@ export const cancelarReserva = async (req: Request, res: Response) => {
         const reservaId = reserva.rows[0].id;
 
         // Libera a mesa (atualiza tabela mesas)
-        await pool.query(
+        await dbPool.query(
             `UPDATE mesas 
              SET ocupada = FALSE, reserva_id = NULL
              WHERE numero = $1`,
@@ -85,14 +76,12 @@ export const cancelarReserva = async (req: Request, res: Response) => {
         );
 
         // Atualiza o status da reserva para cancelada
-        await pool.query(
+        await dbPool.query(
             `UPDATE reservas 
              SET status = 'cancelada'
              WHERE id = $1`,
             [reservaId]
         );
-
-        await pool.query('COMMIT'); // Confirma transação
 
         res.json({
             success: true,
@@ -101,7 +90,6 @@ export const cancelarReserva = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        await pool.query('ROLLBACK'); // Reverte em caso de erro
         console.error('Erro ao cancelar reserva:', error);
         res.status(500).json({
             success: false,

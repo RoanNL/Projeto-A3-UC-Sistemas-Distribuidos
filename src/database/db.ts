@@ -5,11 +5,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // Configura o pool de conexões
-export const pool = new Pool({
+export const dbPool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
 // teste de conexão
-pool.connect()
+dbPool.connect()
   .then(() => console.log('🟢 Conectado ao PostgreSQL com sucesso!'))
   .catch((err) => console.error('🔴 Erro ao conectar ao PostgreSQL:', err));
