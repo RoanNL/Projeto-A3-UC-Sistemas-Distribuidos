@@ -81,25 +81,25 @@ Edite o arquivo `pg_hba.conf` ( no linux fica localizado em `/etc/postgresql/[ve
 # Adicione esta linha:
 `host    all             all             127.0.0.1/32            md5`
 
-
 ---
 
 # 3. Configuração do Backend (Node.js/Express)
+
 
 ## 3.1. Instalação das Dependências
 1. Acesse a pasta raiz do projeto:  
    
    CMD/Bash
-
+   
    `cd server`
 
 2. Instale os pacotes necessários:  
    
    CMD/Bash
-
+   
    `npm install`
  
-
+ 
 ## 3.2. Configuração do Ambiente
 1. Crie um arquivo `.env` na pasta raiz do projeto com:  
    

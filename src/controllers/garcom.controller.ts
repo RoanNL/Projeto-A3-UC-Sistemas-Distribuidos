@@ -6,7 +6,6 @@ export const confirmarReserva = async (req: Request, res: Response) => {
   const { numero_mesa, nome_responsavel } = req.body;
 
   try {
-
       // Atualiza a reserva
       const reserva = await dbPool.query(
           `UPDATE reservas 
@@ -46,7 +45,6 @@ export const liberarMesa = async (req: Request, res: Response) => {
   const { numero_mesa } = req.params;
 
   try {
-
     // Verifica se a mesa existe e está ocupada
     const mesa = await dbPool.query(
         `SELECT * FROM mesas 
