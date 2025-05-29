@@ -70,12 +70,12 @@ document.getElementById('form-cancelar').addEventListener('submit', async (e) =>
 
         showMessage(result.message, 'success');
         document.getElementById('form-cancelar').reset();
-        
+
         // Atualiza a visualização das mesas se estiver na tela do garçom
         if (typeof carregarMesas === 'function') {
             carregarMesas();
         }
-        
+
     } catch (error) {
         showMessage(error.message, 'error');
         console.error('Erro:', error);

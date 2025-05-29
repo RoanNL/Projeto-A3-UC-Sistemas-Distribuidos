@@ -19,7 +19,7 @@ async function carregarMesas() {
             const mesaElement = document.createElement('div');
             mesaElement.className = `mesa ${mesa.ocupada ? 'ocupada' : ''}`;
             mesaElement.id = `mesa-${mesa.numero_mesa}`;
-            
+
             let infoReserva = '';
             if (mesa.ocupada) {
                 infoReserva = `
@@ -27,8 +27,8 @@ async function carregarMesas() {
                         <p>Cliente: ${mesa.cliente}</p>
                         <p>${formatarData(mesa.data)} às ${mesa.hora}</p>
                         <p>Status: ${mesa.status.toUpperCase()}</p>
-                        ${mesa.status === 'confirmada' ? 
-                          `<button onclick="liberarMesa(${mesa.numero_mesa})">Liberar Mesa</button>` : ''}
+                        ${mesa.status === 'confirmada' ?
+                        `<button onclick="liberarMesa(${mesa.numero_mesa})">Liberar Mesa</button>` : ''}
                     </div>
                 `;
             }
@@ -68,10 +68,10 @@ async function liberarMesa(numeroMesa) {
         // Mostra feedback visual imediato
         const mesaElement = document.getElementById(`mesa-${numeroMesa}`);
         mesaElement.classList.add('processando');
-        
+
         // Pausa o auto-refresh durante a operação
         clearInterval(refreshInterval);
-        
+
         const response = await fetch(`${API_BASE_URL}/garcom/mesas/${numeroMesa}/liberar`, {
             method: 'PUT'
         });
@@ -83,7 +83,7 @@ async function liberarMesa(numeroMesa) {
         }
 
         showMessage(data.message, 'success');
-        
+
         // Atualização manual imediata
         mesaElement.classList.remove('ocupada', 'processando');
         mesaElement.innerHTML = `
@@ -94,7 +94,7 @@ async function liberarMesa(numeroMesa) {
     } catch (error) {
         showMessage(error.message, 'error');
         console.error('Erro:', error);
-        
+
         // Restaura o estado anterior visualmente
         const mesaElement = document.getElementById(`mesa-${numeroMesa}`);
         mesaElement.classList.remove('processando');
@@ -103,13 +103,13 @@ async function liberarMesa(numeroMesa) {
             <div>OCUPADA</div>
             <div>Liberação falhou</div>
         `;
-        
+
     } finally {
         // Reinicia o auto-refresh depois de 15 segundos
         setTimeout(() => {
             refreshInterval = setInterval(carregarMesas, 10000);
         }, 15000);
-        
+
         // Força uma atualização manual após 3 segundos
         setTimeout(carregarMesas, 3000);
     }
@@ -127,10 +127,10 @@ async function liberarMesa(numeroMesa) {
         // Mostra feedback visual imediato
         const mesaElement = document.getElementById(`mesa-${numeroMesa}`);
         mesaElement.classList.add('processando');
-        
+
         // Pausa o auto-refresh durante a operação
         clearInterval(refreshInterval);
-        
+
         const response = await fetch(`${API_BASE_URL}/mesas/${numeroMesa}/liberar`, {
             method: 'PUT'
         });
@@ -142,7 +142,7 @@ async function liberarMesa(numeroMesa) {
         }
 
         showMessage(data.message, 'success');
-        
+
         // Atualização manual imediata
         mesaElement.classList.remove('ocupada', 'processando');
         mesaElement.innerHTML = `
@@ -153,7 +153,7 @@ async function liberarMesa(numeroMesa) {
     } catch (error) {
         showMessage(error.message, 'error');
         console.error('Erro:', error);
-        
+
         // Restaura o estado anterior visualmente
         const mesaElement = document.getElementById(`mesa-${numeroMesa}`);
         mesaElement.classList.remove('processando');
@@ -162,13 +162,13 @@ async function liberarMesa(numeroMesa) {
             <div>OCUPADA</div>
             <div>Liberação falhou</div>
         `;
-        
+
     } finally {
         // Reinicia o auto-refresh depois de 15 segundos
         setTimeout(() => {
             refreshInterval = setInterval(carregarMesas, 10000);
         }, 15000);
-        
+
         // Força uma atualização manual após 3 segundos
         setTimeout(carregarMesas, 3000);
     }
