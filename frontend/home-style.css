@@ -7,6 +7,12 @@
 }
 
 /* Estilos específicos da página principal */
+
+body {
+    font-family: "Barlow Condensed";
+    padding-bottom: 70px; /*é só pra quando a tela tiver pra celular o footer não ficar encima dos cards*/
+}
+
 .hero {
     background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
         url('assets/papillon.jpg');
@@ -100,13 +106,16 @@
 }
 
 footer {
-    text-align: center;
-    margin-top: 80px;
-    padding: 20px;
-    height: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px;
     background-color: #333;
     color: white;
-}
+    text-align: center;
+    z-index: 1000;
+  }
 
 @media (max-width: 1400px) {
     .hero-section {
