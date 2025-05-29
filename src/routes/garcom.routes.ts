@@ -3,29 +3,22 @@ import {
     confirmarReserva,
     liberarMesa,
     getMesas,
-    cadastrarGarcom,
-    listarGarcons 
-    
 } from '../controllers/garcom.controller';
 
-import { excluirGarcom } from '../controllers/gerente.controller';
 
 const router = Router();
 
-
-router.put('/reservas/:id/confirmar', async (req, res) => {
+// rota para confirmar uma reserva
+router.put('/reservas/confirmar', async (req, res) => {
     await confirmarReserva(req, res);
 });
-router.put('/mesas/:numero_mesa/liberar', liberarMesa);
+
+// rota para liberar uma mesa
+router.put('/mesas/:numero_mesa/liberar', async (req, res) => {
+    await liberarMesa(req, res)
+});
+
+// rota para obter status das mesas
 router.get('/mesas', getMesas);
-
-router.post('/garcons', async (req, res) => {
-    await cadastrarGarcom(req, res);
-});
-
-router.get('/garcons', listarGarcons);
-router.delete('/garcons/:id', async (req, res) => {
-    await excluirGarcom(req, res);
-});
 
 export default router;

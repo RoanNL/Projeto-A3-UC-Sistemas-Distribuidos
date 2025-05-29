@@ -39,7 +39,7 @@ document.getElementById('form-reserva').addEventListener('submit', async (e) => 
         const data = await response.json();
 
         if (response.ok) {
-            showMessage(data.mensagem, 'success');
+            showMessage('Reserva realizada com sucesso', 'success');
             document.getElementById('form-reserva').reset();
         } else {
             showMessage(data.erro, 'error');
@@ -54,20 +54,31 @@ document.getElementById('form-cancelar').addEventListener('submit', async (e) =>
     const id = document.getElementById('id-reserva').value;
 
     try {
-        const response = await fetch(`${API_BASE_URL}/reservas/${id}`, {
-            method: 'DELETE'
+        const response = await fetch(`${API_BASE_URL}/reservas/cancelar`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ numero_mesa: id })
         });
 
-        const data = await response.json();
+        const result = await response.json();
 
-        if (response.ok) {
-            showMessage(data.mensagem, 'success');
-            document.getElementById('form-cancelar').reset();
-        } else {
-            showMessage(data.erro, 'error');
+        if (!response.ok) {
+            throw new Error(result.error || 'Erro ao cancelar reserva');
         }
+
+        showMessage(result.message, 'success');
+        document.getElementById('form-cancelar').reset();
+
+        // Atualiza a visualização das mesas se estiver na tela do garçom
+        if (typeof carregarMesas === 'function') {
+            carregarMesas();
+        }
+
     } catch (error) {
-        showMessage('Erro ao conectar com o servidor', 'error');
+        showMessage(error.message, 'error');
+        console.error('Erro:', error);
     }
 });
 

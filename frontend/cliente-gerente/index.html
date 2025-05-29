@@ -6,155 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerente - Relatórios</title>
     <link rel="stylesheet" href="../style.css">
-    <style>
-        :root {
-            --primary-color: #f39c12;
-            --primary-dark: #e67e22;
-        }
-
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .header h1 {
-            margin: 0;
-            font-size: 2.2rem;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            margin-bottom: 30px;
-        }
-
-        .card h2 {
-            color: var(--primary-dark);
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #eee;
-        }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
-        }
-
-        .btn-back {
-            display: inline-block;
-            background-color: #6c757d;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            margin-top: 20px;
-            transition: background-color 0.3s;
-        }
-
-        .btn-back:hover {
-            background-color: #5a6268;
-        }
-
-        input,
-        select {
-            border: 1px solid #ddd;
-            transition: border 0.3s;
-        }
-
-        input:focus,
-        select:focus {
-            border-color: var(--primary-color);
-            outline: none;
-        }
-
-        .table-responsive {
-            overflow-x: auto;
-        }
-
-        .status-reservada {
-            color: #3498db;
-            font-weight: bold;
-        }
-
-        .status-confirmada {
-            color: #2ecc71;
-            font-weight: bold;
-        }
-
-        .status-cancelada {
-            color: #e74c3c;
-            font-weight: bold;
-            text-decoration: line-through;
-        }
-
-        .no-results {
-            padding: 20px;
-            text-align: center;
-            color: #666;
-            font-style: italic;
-        }
-
-        /* Estilos para a tabela de garçons */
-        .tabela-garcons {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-
-        .tabela-garcons th,
-        .tabela-garcons td {
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-
-        .tabela-garcons th {
-            background-color: #f8f9fa;
-            font-weight: 600;
-        }
-
-        /* Estilo do botão de excluir */
-        .btn-excluir {
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .btn-excluir:hover {
-            background-color: #c0392b;
-            transform: translateY(-1px);
-        }
-
-        .btn-excluir i {
-            font-size: 14px;
-        }
-    </style>
+    <link rel="stylesheet" href="ger-style.css">
 </head>
 
 <body>
@@ -174,17 +26,10 @@
                     <label for="fim">Data Fim:</label>
                     <input type="date" id="fim" required>
                 </div>
-                <div class="form-group">
-                    <label for="status">Status:</label>
-                    <select id="status" required>
-                        <option value="reservada">Reservada</option>
-                        <option value="confirmada">Confirmada</option>
-                        <option value="cancelada">Cancelada</option>
-                    </select>
-                </div>
                 <button type="submit" class="btn btn-primary">Gerar Relatório</button>
             </form>
         </div>
+
 
         <div class="card">
             <h2>Relatório por Mesa</h2>
@@ -200,29 +45,13 @@
         <div class="card">
             <h2>Relatório por Garçom</h2>
             <form id="form-garcom">
-                <div class="form-group">
-                    <label for="nome-garcom">Nome do Garçom:</label>
-                    <input type="text" id="nome-garcom" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Gerar Relatório</button>
+                <p>Mostra apenas reservas confirmadas</p>
+                <button id="btn-relatorio-garcom" class="btn btn-primary">
+                    Gerar Relatório
+                </button>
             </form>
         </div>
 
-        <div class="card">
-            <h2>Cadastrar Novo Garçom</h2>
-            <form id="form-cadastrar-garcom">
-                <div class="form-group">
-                    <label for="nome-garcom-cadastro">Nome do Garçom:</label>
-                    <input type="text" id="nome-garcom-cadastro" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Cadastrar</button>
-            </form>
-        </div>
-
-        <div class="card">
-            <h2>Garçons Cadastrados</h2>
-            <div id="lista-garcons"></div>
-        </div>
 
         <div id="resultado" class="table-responsive"></div>
 
