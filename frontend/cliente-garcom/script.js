@@ -18,10 +18,6 @@ confReserva.addEventListener('submit', async (e) => {
     }
 
     try {
-
-        const mesaElement = document.getElementById(`mesa-${numeroMesa}`);
-        if (mesaElement) mesaElement.classList.add('processando');
-
         const response = await fetch(`${urlDaAPI}/reservas/confirmar`, {
             method: 'PUT',
             headers: {
@@ -40,15 +36,12 @@ confReserva.addEventListener('submit', async (e) => {
         }
 
         showMessage(result.message, 'success');
-        document.getElementById('form-confirmar').reset();
+        document.querySelector('#form-confirmar').reset();
         await carregarMesas();
 
     } catch (error) {
         showMessage(error.message, 'error');
         console.error('Erro:', error);
-        
-        const mesaElement = document.getElementById(`mesa-${numeroMesa}`);
-        if (mesaElement) mesaElement.classList.remove('processando');
     }
 });
 
@@ -102,7 +95,7 @@ async function carregarMesas() {
 
 // Função para exibir mensagens
 function showMessage(message, type) {
-    const msgDiv = document.getElementById('mensagem');
+    const msgDiv = document.querySelector('#mensagem');
     msgDiv.textContent = message;
     msgDiv.className = `message ${type}`;
     msgDiv.style.display = 'block';
@@ -144,7 +137,7 @@ async function carregarGarcons() {
 
 // Preenche o select com os garçons
 function atualizarSelectGarcons() {
-    const select = document.getElementById('select-garcom');
+    const select = document.querySelector('#select-garcom');
     
     // Limpa opções existentes, mantendo a primeira
     while (select.options.length > 1) {

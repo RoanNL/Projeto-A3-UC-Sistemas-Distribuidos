@@ -3,11 +3,12 @@ const formPeriodo = document.querySelector('#form-periodo');
 const formMesa = document.querySelector('#form-mesa');
 const formGarcom = document.querySelector('#form-garcom');
 
+// Evento de envio do formulário
 formPeriodo.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  const inicio = document.getElementById('inicio').value;
-  const fim = document.getElementById('fim').value;
+  const inicio = document.querySelector('#inicio').value;
+  const fim = document.querySelector('#fim').value;
  
 
   // Validação no frontend
@@ -33,8 +34,9 @@ formPeriodo.addEventListener('submit', async (e) => {
     }
 });
 
+// Função para exibir o relatório de reservas em um período
 function displayPeriodReport(reportData) {
-  const resultadoDiv = document.getElementById('resultado');
+  const resultadoDiv = document.querySelector('#resultado');
   resultadoDiv.innerHTML = '';
 
   if (reportData.data.length === 0) {
@@ -81,9 +83,10 @@ function displayPeriodReport(reportData) {
   resultadoDiv.innerHTML = html;
 }
 
+// Eventos de envio do formulário
 formMesa.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const numero = document.getElementById('numero-mesa').value;
+  const numero = document.querySelector('#numero-mesa').value;
 
   try {
     const response = await fetch(`${urlDaAPI}/relatorio/mesa/${numero}`);
@@ -95,6 +98,7 @@ formMesa.addEventListener('submit', async (e) => {
   }
 });
 
+// Eventos de envio do formulário
 formGarcom.addEventListener('submit', async (e) => {
   e.preventDefault();
   
@@ -113,8 +117,9 @@ formGarcom.addEventListener('submit', async (e) => {
   }
 });
 
+// Função para exibir o relatório de garçons
 function displayResult(data) {
-  const resultadoDiv = document.getElementById('resultado');
+  const resultadoDiv = document.querySelector('#resultado');
   
   if (Array.isArray(data) && data.length > 0) {
     let html = `
@@ -163,8 +168,9 @@ function displayResult(data) {
   }
 }
 
+// Função para exibir mensagens
 function showMessage(message, type = 'info', duration = 5000) {
-  const msgDiv = document.getElementById('mensagem');
+  const msgDiv = document.querySelector('#mensagem');
     if (!msgDiv) return;
     
     msgDiv.textContent = message;
@@ -178,6 +184,7 @@ function showMessage(message, type = 'info', duration = 5000) {
     }
 }
 
+// Função para carregar o relatório de garçons
 async function carregarRelatorioGarcom(filtro = 'todos') {
   try {
       const response = await fetch(`${urlDaAPI}/relatorio/garcom?garcom=${filtro}`);
@@ -186,7 +193,7 @@ async function carregarRelatorioGarcom(filtro = 'todos') {
       if (!success) throw new Error(error || 'Erro ao carregar relatório');
 
       // Atualiza o dropdown de garçons
-      const selectGarcom = document.getElementById('filtro-garcom');
+      const selectGarcom = document.querySelector('#filtro-garcom');
       selectGarcom.innerHTML = `
           <option value="todos">Todos os garçons</option>
           ${data.garcons.map(g => `
@@ -211,7 +218,7 @@ async function carregarRelatorioGarcom(filtro = 'todos') {
       }, {});
 
       // Exibe os resultados
-      const resultadoDiv = document.getElementById('resultado');
+      const resultadoDiv = document.querySelector('#resultado');
       
       if (data.reservas.length === 0) {
           resultadoDiv.innerHTML = '<p>Nenhuma reserva confirmada encontrada</p>';
@@ -261,11 +268,8 @@ async function carregarRelatorioGarcom(filtro = 'todos') {
 // Evento de envio do formulário
 formGarcom.addEventListener('submit', (e) => {
   e.preventDefault();
-  const filtro = document.getElementById('filtro-garcom').value;
+  const filtro = document.querySelector('#filtro-garcom').value;
   carregarRelatorioGarcom(filtro);
 });
 
-// Carrega inicialmente
-document.addEventListener('DOMContentLoaded', () => {
-  carregarRelatorioGarcom();
-});
+
