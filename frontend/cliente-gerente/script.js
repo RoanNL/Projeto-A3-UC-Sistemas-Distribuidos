@@ -53,7 +53,7 @@ function displayPeriodReport(reportData) {
                   <th>Pessoas</th>
                   <th>Responsável</th>
                   <th>Status</th>
-                  <th>Ocupada</th>
+                  <th>Garçom</th>
               </tr>
           </thead>
           <tbody>
@@ -72,7 +72,7 @@ function displayPeriodReport(reportData) {
               <td>${reserva.qtd_pessoas}</td>
               <td>${reserva.nome_responsavel}</td>
               <td>${reserva.status.toUpperCase()}</td>
-              <td>${reserva.ocupada ? 'Sim' : 'Não'}</td>
+              <td>${reserva.garcom_responsavel}</td>
           </tr>
       `;
   });
@@ -112,51 +112,6 @@ formGarcom.addEventListener('submit', async (e) => {
       showMessage(error.message, 'error');
   }
 });
-
-function displayGarcomReport(reportData) {
-  const resultadoDiv = document.getElementById('resultado');
-  resultadoDiv.innerHTML = '';
-
-  if (Object.keys(reportData.data).length === 0) {
-      resultadoDiv.innerHTML = '<p>Nenhuma reserva confirmada encontrada</p>';
-      return;
-  }
-
-  let html = '<div class="report-container">';
-
-  for (const [garcom, dados] of Object.entries(reportData.data)) {
-      html += `
-          <div class="garcom-section">
-              <h3>${garcom} - Total de Mesas: ${dados.total}</h3>
-              <table class="report-table">
-                  <thead>
-                      <tr>
-                          <th>Data</th>
-                          <th>Hora</th>
-                          <th>Mesa</th>
-                          <th>Pessoas</th>
-                          <th>Cliente</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      ${dados.reservas.map(reserva => `
-                          <tr>
-                              <td>${new Date(reserva.data).toLocaleDateString()}</td>
-                              <td>${reserva.hora}</td>
-                              <td>${reserva.numero_mesa}</td>
-                              <td>${reserva.qtd_pessoas}</td>
-                              <td>${reserva.nome_responsavel}</td>
-                          </tr>
-                      `).join('')}
-                  </tbody>
-              </table>
-          </div>
-      `;
-  }
-
-  html += '</div>';
-  resultadoDiv.innerHTML = html;
-}
 
 function displayResult(data) {
   const resultadoDiv = document.getElementById('resultado');
@@ -223,3 +178,94 @@ function showMessage(message, type = 'info', duration = 5000) {
     }
 }
 
+async function carregarRelatorioGarcom(filtro = 'todos') {
+  try {
+      const response = await fetch(`${urlDaAPI}/relatorio/garcom?garcom=${filtro}`);
+      const { success, data, error } = await response.json();
+
+      if (!success) throw new Error(error || 'Erro ao carregar relatório');
+
+      // Atualiza o dropdown de garçons
+      const selectGarcom = document.getElementById('filtro-garcom');
+      selectGarcom.innerHTML = `
+          <option value="todos">Todos os garçons</option>
+          ${data.garcons.map(g => `
+              <option value="${g.nome}" ${data.filtroAtual === g.nome ? 'selected' : ''}>
+                  ${g.nome}
+              </option>
+          `).join('')}
+      `;
+
+      // Agrupa reservas por garçom
+      const porGarcom = data.reservas.reduce((acc, reserva) => {
+          const garcom = reserva.nome_garcom;
+          if (!acc[garcom]) {
+              acc[garcom] = {
+                  total: 0,
+                  reservas: []
+              };
+          }
+          acc[garcom].total++;
+          acc[garcom].reservas.push(reserva);
+          return acc;
+      }, {});
+
+      // Exibe os resultados
+      const resultadoDiv = document.getElementById('resultado');
+      
+      if (data.reservas.length === 0) {
+          resultadoDiv.innerHTML = '<p>Nenhuma reserva confirmada encontrada</p>';
+          return;
+      }
+
+      let html = '<div class="report-container">';
+
+      for (const [garcom, dados] of Object.entries(porGarcom)) {
+          html += `
+              <div class="garcom-section">
+                  <h3>${garcom} - Total de Mesas: ${dados.total}</h3>
+                  <table class="report-table">
+                      <thead>
+                          <tr>
+                              <th>Data</th>
+                              <th>Hora</th>
+                              <th>Mesa</th>
+                              <th>Pessoas</th>
+                              <th>Cliente</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          ${dados.reservas.map(reserva => `
+                              <tr>
+                                  <td>${reserva.data_formatada}</td>
+                                  <td>${reserva.hora}</td>
+                                  <td>${reserva.numero_mesa}</td>
+                                  <td>${reserva.qtd_pessoas}</td>
+                                  <td>${reserva.nome_cliente}</td>
+                              </tr>
+                          `).join('')}
+                      </tbody>
+                  </table>
+              </div>
+          `;
+      }
+
+      html += '</div>';
+      resultadoDiv.innerHTML = html;
+
+  } catch (error) {
+      showMessage(error.message, 'error');
+  }
+}
+
+// Evento de envio do formulário
+formGarcom.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const filtro = document.getElementById('filtro-garcom').value;
+  carregarRelatorioGarcom(filtro);
+});
+
+// Carrega inicialmente
+document.addEventListener('DOMContentLoaded', () => {
+  carregarRelatorioGarcom();
+});

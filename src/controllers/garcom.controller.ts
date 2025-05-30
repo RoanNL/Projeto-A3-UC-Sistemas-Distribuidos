@@ -60,7 +60,7 @@ export const confirmarReserva = async (req: Request, res: Response) => {
 
         res.json({ 
             success: true,
-            message: `Reserva confirmada para mesa ${numero_mesa} pelo garçom ${nomeGarcom}!`,
+            message: `Reserva confirmada para mesa ${numero_mesa} por ${nomeGarcom}!`,
             data: { numero_mesa, status: 'confirmada' }
         });
 

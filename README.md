@@ -190,9 +190,13 @@ Cliente (Frontend) → API REST (Node.js/Express) → PostgreSQL
 
 **Equipe:**  
 Roan Nascimento Lisboa, 
-Alice, 
-Catarina,
-Eduardo,  
+
+Alice,
+
+Catarina dos Santos Romeiro,
+
+Eduardo Copque da Silva, 
+
 **Repositório GitHub:** https://github.com/RoanNL/Projeto-A3-UC-Sistemas-Distribuidos
 
 --- 

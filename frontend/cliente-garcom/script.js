@@ -36,7 +36,7 @@ confReserva.addEventListener('submit', async (e) => {
         const result = await response.json();
 
         if (!response.ok) {
-            throw new Error(result.error || 'Erro ao confirmar reserva');
+            throw new Error(result.error || 'Reserva para essa mesa não foi realizada!');
         }
 
         showMessage(result.message, 'success');
