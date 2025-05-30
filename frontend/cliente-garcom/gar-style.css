@@ -82,10 +82,12 @@ body {
 }
 
 #mensagem {
-    margin: 20px 0;
-    padding: 15px;
+    margin: 20px;
+    padding: 35px;
     border-radius: 5px;
     display: none;
+    text-align: center;
+    font-size: 1.2rem;
 }
 
 .auto-refresh {
@@ -118,7 +120,7 @@ body {
 
 .message {
     padding: 10px;
-    margin: 10px 0;
+    margin: 10px 20px;
     border-radius: 4px;
 }
 
@@ -170,4 +172,34 @@ body {
     color: #e74c3c;
     font-size: 0.8em;
     margin-top: 5px;
+}
+
+/* Estilos para o select de garçons */
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    margin: 8px 0;
+    background-color: white;
+    transition: border-color 0.3s;
+}
+
+select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Estilo para opções */
+option {
+    padding: 8px;
+}
+
+/* Mensagem quando não há garçons */
+.empty-garcons {
+    color: #e74c3c;
+    font-style: italic;
+    margin-top: 10px;
 }

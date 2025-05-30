@@ -53,7 +53,10 @@ tr:hover {
 .success {
     background-color: #dff0d8;
     color: #3c763d;
-    padding: 15px;
+    padding: 45px;
+    text-align: center;
+    font-size: 1.2rem;
+    border-radius: 4px;
     border-radius: 4px;
     margin: 20px 0;
 }
@@ -61,9 +64,11 @@ tr:hover {
 .error {
     background-color: #f2dede;
     color: #a94442;
-    padding: 15px;
+    padding: 45px;
+    text-align: center;
+    font-size: 1.2rem;
     border-radius: 4px;
-    margin: 20px 0;
+    margin: 20px;
 }
 
 .info {

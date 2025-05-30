@@ -189,10 +189,14 @@ Cliente (Frontend) → API REST (Node.js/Express) → PostgreSQL
  1. vídeo de apresentação do trabalho: 
 
 **Equipe:**  
-Roan Nascimento Lisboa, 
-Alice, 
-Catarina,
-Eduardo,  
+Roan Nascimento Lisboa, Backend
+
+Alice Martins Bahiense Bezerra Bauler, Frontend
+
+Catarina dos Santos Romeiro, Frontend
+
+Eduardo Copque da Silva, Documentação e Backend
+
 **Repositório GitHub:** https://github.com/RoanNL/Projeto-A3-UC-Sistemas-Distribuidos
 
 --- 

@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS reservas (
     nome_responsavel VARCHAR(100) NOT NULL,
     garcom_responsavel VARCHAR(100),
     status VARCHAR(20) NOT NULL DEFAULT 'reservada' 
-        CHECK (status IN ('reservada', 'confirmada', 'cancelada', 'finalizada')),
+        CHECK (status IN ('reservada', 'confirmada', 'cancelada')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -38,8 +38,16 @@ ALTER TABLE reservas ADD CONSTRAINT fk_reservas_garcom
 
 -- Insere as 20 mesas iniciais
 INSERT INTO mesas (numero)
-SELECT generate_series(1, 20)
+SELECT generate_series(1, 21)
 ON CONFLICT (numero) DO NOTHING;
+
+-- Inserção de garçons padrão
+INSERT INTO garcons (nome) VALUES 
+('Roan Lisboa'),
+('Catarina Romeiro'),
+('Alice Bahiense'),
+('Eduardo Copque')
+ON CONFLICT (nome) DO NOTHING;
 
 -- Cria os índices
 CREATE INDEX IF NOT EXISTS idx_reservas_data ON reservas(data);
