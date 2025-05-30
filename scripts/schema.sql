@@ -45,7 +45,7 @@ ON CONFLICT (numero) DO NOTHING;
 INSERT INTO garcons (nome) VALUES 
 ('Roan Lisboa'),
 ('Catarina Romeiro'),
-('Alice Bahianense'),
+('Alice Bahiense'),
 ('Eduardo Copque')
 ON CONFLICT (nome) DO NOTHING;
 
