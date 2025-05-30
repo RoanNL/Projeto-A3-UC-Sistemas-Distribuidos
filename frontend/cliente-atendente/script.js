@@ -1,6 +1,9 @@
-const API_BASE_URL = 'http://localhost:3000/atendente';
+const urlDaAPI = 'http://localhost:3000/atendente';
+const formReserva = document.querySelector('#form-reserva');
+const formCancel = document.querySelector('#form-cancelar');
 
-document.getElementById('form-reserva').addEventListener('submit', async (e) => {
+
+formReserva.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const dataInput = document.getElementById('data').value;
@@ -28,7 +31,7 @@ document.getElementById('form-reserva').addEventListener('submit', async (e) => 
     };
 
     try {
-        const response = await fetch(`${API_BASE_URL}/reservas`, {
+        const response = await fetch(`${urlDaAPI}/reservas`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -49,12 +52,12 @@ document.getElementById('form-reserva').addEventListener('submit', async (e) => 
     }
 });
 
-document.getElementById('form-cancelar').addEventListener('submit', async (e) => {
+formCancel.addEventListener('submit', async (e) => {
     e.preventDefault();
     const id = document.getElementById('id-reserva').value;
 
     try {
-        const response = await fetch(`${API_BASE_URL}/reservas/cancelar`, {
+        const response = await fetch(`${urlDaAPI}/reservas/cancelar`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

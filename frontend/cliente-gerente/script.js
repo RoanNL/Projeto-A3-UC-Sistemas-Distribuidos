@@ -1,7 +1,9 @@
-const API_BASE_URL = 'http://localhost:3000/gerente';
+const urlDaAPI = 'http://localhost:3000/gerente';
+const formPeriodo = document.querySelector('#form-periodo');
+const formMesa = document.querySelector('#form-mesa');
+const formGarcom = document.querySelector('#form-garcom');
 
-
-document.getElementById('form-periodo').addEventListener('submit', async (e) => {
+formPeriodo.addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const inicio = document.getElementById('inicio').value;
@@ -16,7 +18,7 @@ document.getElementById('form-periodo').addEventListener('submit', async (e) => 
 
 
   try {
-    const response = await fetch(`${API_BASE_URL}/relatorio/periodo?inicio=${inicio}&fim=${fim}`);
+    const response = await fetch(`${urlDaAPI}/relatorio/periodo?inicio=${inicio}&fim=${fim}`);
     const data = await response.json();
 
         if (!data.success) {
@@ -79,12 +81,12 @@ function displayPeriodReport(reportData) {
   resultadoDiv.innerHTML = html;
 }
 
-document.getElementById('form-mesa').addEventListener('submit', async (e) => {
+formMesa.addEventListener('submit', async (e) => {
   e.preventDefault();
   const numero = document.getElementById('numero-mesa').value;
 
   try {
-    const response = await fetch(`${API_BASE_URL}/relatorio/mesa/${numero}`);
+    const response = await fetch(`${urlDaAPI}/relatorio/mesa/${numero}`);
     const data = await response.json();
 
     displayResult(data);
@@ -93,11 +95,11 @@ document.getElementById('form-mesa').addEventListener('submit', async (e) => {
   }
 });
 
-document.getElementById('form-garcom').addEventListener('submit', async (e) => {
+formGarcom.addEventListener('submit', async (e) => {
   e.preventDefault();
   
   try {
-      const response = await fetch(`${API_BASE_URL}/relatorio/garcom`);
+      const response = await fetch(`${urlDaAPI}/relatorio/garcom`);
       const data = await response.json();
 
       if (!data.success) {
@@ -122,10 +124,10 @@ function displayGarcomReport(reportData) {
 
   let html = '<div class="report-container">';
 
-  for (const [garcom, reservas] of Object.entries(reportData.data)) {
+  for (const [garcom, dados] of Object.entries(reportData.data)) {
       html += `
           <div class="garcom-section">
-              <h3>Relatório do Garçom</h3>
+              <h3>${garcom} - Total de Mesas: ${dados.total}</h3>
               <table class="report-table">
                   <thead>
                       <tr>
@@ -133,11 +135,11 @@ function displayGarcomReport(reportData) {
                           <th>Hora</th>
                           <th>Mesa</th>
                           <th>Pessoas</th>
-                          <th>Responsável</th>
+                          <th>Cliente</th>
                       </tr>
                   </thead>
                   <tbody>
-                      ${reservas.map(reserva => `
+                      ${dados.reservas.map(reserva => `
                           <tr>
                               <td>${new Date(reserva.data).toLocaleDateString()}</td>
                               <td>${reserva.hora}</td>
@@ -206,8 +208,18 @@ function displayResult(data) {
   }
 }
 
-function showMessage(message, type) {
-  const resultadoDiv = document.getElementById('resultado');
-  resultadoDiv.textContent = message;
-  resultadoDiv.className = type;
+function showMessage(message, type = 'info', duration = 5000) {
+  const msgDiv = document.getElementById('mensagem');
+    if (!msgDiv) return;
+    
+    msgDiv.textContent = message;
+    msgDiv.className = `message ${type}`;
+    msgDiv.style.display = 'block';
+
+    if (duration > 0) {
+        setTimeout(() => {
+            msgDiv.style.display = 'none';
+        }, duration);
+    }
 }
+

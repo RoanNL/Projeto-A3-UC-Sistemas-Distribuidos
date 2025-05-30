@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS reservas (
     nome_responsavel VARCHAR(100) NOT NULL,
     garcom_responsavel VARCHAR(100),
     status VARCHAR(20) NOT NULL DEFAULT 'reservada' 
-        CHECK (status IN ('reservada', 'confirmada', 'cancelada', 'finalizada')),
+        CHECK (status IN ('reservada', 'confirmada', 'cancelada')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
