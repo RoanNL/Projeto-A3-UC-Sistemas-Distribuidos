@@ -45,13 +45,16 @@
         <div class="card">
             <h2>Relatório por Garçom</h2>
             <form id="form-garcom">
-                <p>Mostra apenas reservas confirmadas</p>
-                <button id="btn-relatorio-garcom" class="btn btn-primary">
-                    Gerar Relatório
-                </button>
+                <div class="form-group">
+                    <label for="filtro-garcom">Filtrar por Garçom:</label>
+                    <select id="filtro-garcom" class="form-control">
+                        <option value="todos">Todos os garçons</option>
+                        <!-- Opções serão preenchidas via JavaScript -->
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Gerar Relatório</button>
             </form>
         </div>
-
 
         <div id="resultado" class="table-responsive"></div>
 

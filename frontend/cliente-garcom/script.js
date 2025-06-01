@@ -1,18 +1,61 @@
-const API_BASE_URL = 'http://localhost:3000/garcom';
+const urlDaAPI = 'http://localhost:3000/garcom';
 let mesasData = [];
+let garconsDisponiveis = [];
 let refreshInterval;
+const confReserva = document.querySelector('#form-confirmar');
+
+
+// Confirmar reserva 
+confReserva.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const numeroMesa = document.querySelector('#numero-mesa').value;
+    const garcomId = document.querySelector('#select-garcom').value;
+
+    if (!garcomId) {
+        showMessage('Selecione seu nome na lista de garçons', 'error');
+        return;
+    }
+
+    try {
+        const response = await fetch(`${urlDaAPI}/reservas/confirmar`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                numero_mesa: numeroMesa,
+                garcom_id: garcomId
+            })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.error || 'Reserva para essa mesa não foi realizada!');
+        }
+
+        showMessage(result.message, 'success');
+        document.querySelector('#form-confirmar').reset();
+        await carregarMesas();
+
+    } catch (error) {
+        showMessage(error.message, 'error');
+        console.error('Erro:', error);
+    }
+});
 
 // Função para carregar o status das mesas
 async function carregarMesas() {
     try {
-        const response = await fetch(`${API_BASE_URL}/mesas`);
+        const response = await fetch(`${urlDaAPI}/mesas`);
         const { success, data: mesas, error } = await response.json();
 
         if (!success) {
             throw new Error(error || 'Erro ao carregar mesas');
         }
 
-        const container = document.getElementById('mesas-container');
+        const container = document.querySelector('#mesas-container');
         container.innerHTML = '';
 
         mesas.forEach(mesa => {
@@ -20,15 +63,15 @@ async function carregarMesas() {
             mesaElement.className = `mesa ${mesa.ocupada ? 'ocupada' : ''}`;
             mesaElement.id = `mesa-${mesa.numero_mesa}`;
 
+
             let infoReserva = '';
+            
             if (mesa.ocupada) {
                 infoReserva = `
                     <div class="info-reserva">
                         <p>Cliente: ${mesa.cliente}</p>
                         <p>${formatarData(mesa.data)} às ${mesa.hora}</p>
                         <p>Status: ${mesa.status.toUpperCase()}</p>
-                        ${mesa.status === 'confirmada' ?
-                        `<button onclick="liberarMesa(${mesa.numero_mesa})">Liberar Mesa</button>` : ''}
                     </div>
                 `;
             }
@@ -52,7 +95,7 @@ async function carregarMesas() {
 
 // Função para exibir mensagens
 function showMessage(message, type) {
-    const msgDiv = document.getElementById('mensagem');
+    const msgDiv = document.querySelector('#mensagem');
     msgDiv.textContent = message;
     msgDiv.className = `message ${type}`;
     msgDiv.style.display = 'block';
@@ -62,157 +105,6 @@ function showMessage(message, type) {
     }, 5000);
 }
 
-// Função para liberar mesa
-async function liberarMesa(numeroMesa) {
-    try {
-        // Mostra feedback visual imediato
-        const mesaElement = document.getElementById(`mesa-${numeroMesa}`);
-        mesaElement.classList.add('processando');
-
-        // Pausa o auto-refresh durante a operação
-        clearInterval(refreshInterval);
-
-        const response = await fetch(`${API_BASE_URL}/garcom/mesas/${numeroMesa}/liberar`, {
-            method: 'PUT'
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.error || 'Erro ao liberar mesa');
-        }
-
-        showMessage(data.message, 'success');
-
-        // Atualização manual imediata
-        mesaElement.classList.remove('ocupada', 'processando');
-        mesaElement.innerHTML = `
-            <div>Mesa ${numeroMesa}</div>
-            <div>LIVRE</div>
-        `;
-
-    } catch (error) {
-        showMessage(error.message, 'error');
-        console.error('Erro:', error);
-
-        // Restaura o estado anterior visualmente
-        const mesaElement = document.getElementById(`mesa-${numeroMesa}`);
-        mesaElement.classList.remove('processando');
-        mesaElement.innerHTML = `
-            <div>Mesa ${numeroMesa}</div>
-            <div>OCUPADA</div>
-            <div>Liberação falhou</div>
-        `;
-
-    } finally {
-        // Reinicia o auto-refresh depois de 15 segundos
-        setTimeout(() => {
-            refreshInterval = setInterval(carregarMesas, 10000);
-        }, 15000);
-
-        // Força uma atualização manual após 3 segundos
-        setTimeout(carregarMesas, 3000);
-    }
-}
-
-// Inicia o auto-refresh quando a página carrega
-document.addEventListener('DOMContentLoaded', () => {
-    carregarMesas();
-    refreshInterval = setInterval(carregarMesas, 10000);
-});
-
-// Função para liberar mesa
-async function liberarMesa(numeroMesa) {
-    try {
-        // Mostra feedback visual imediato
-        const mesaElement = document.getElementById(`mesa-${numeroMesa}`);
-        mesaElement.classList.add('processando');
-
-        // Pausa o auto-refresh durante a operação
-        clearInterval(refreshInterval);
-
-        const response = await fetch(`${API_BASE_URL}/mesas/${numeroMesa}/liberar`, {
-            method: 'PUT'
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.error || 'Erro ao liberar mesa');
-        }
-
-        showMessage(data.message, 'success');
-
-        // Atualização manual imediata
-        mesaElement.classList.remove('ocupada', 'processando');
-        mesaElement.innerHTML = `
-            <div>Mesa ${numeroMesa}</div>
-            <div>LIVRE</div>
-        `;
-
-    } catch (error) {
-        showMessage(error.message, 'error');
-        console.error('Erro:', error);
-
-        // Restaura o estado anterior visualmente
-        const mesaElement = document.getElementById(`mesa-${numeroMesa}`);
-        mesaElement.classList.remove('processando');
-        mesaElement.innerHTML = `
-            <div>Mesa ${numeroMesa}</div>
-            <div>OCUPADA</div>
-            <div>Liberação falhou</div>
-        `;
-
-    } finally {
-        // Reinicia o auto-refresh depois de 15 segundos
-        setTimeout(() => {
-            refreshInterval = setInterval(carregarMesas, 10000);
-        }, 15000);
-
-        // Força uma atualização manual após 3 segundos
-        setTimeout(carregarMesas, 3000);
-    }
-}
-
-// Inicia o auto-refresh quando a página carrega
-document.addEventListener('DOMContentLoaded', () => {
-    carregarMesas();
-    refreshInterval = setInterval(carregarMesas, 10000);
-});
-
-// Confirmar reserva 
-document.getElementById('form-confirmar').addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const numeroMesa = document.getElementById('numero-mesa').value;
-    const nomeGarcom = document.getElementById('nome-garcom').value;
-
-    try {
-        const response = await fetch(`${API_BASE_URL}/reservas/confirmar`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                numero_mesa: numeroMesa,
-                nome_responsavel: nomeGarcom
-            })
-        });
-
-        const { success, message, error } = await response.json();
-
-        if (!success) {
-            throw new Error(error || 'Erro ao confirmar reserva');
-        }
-
-        showMessage(message, 'success');
-        document.getElementById('form-confirmar').reset();
-        carregarMesas();
-    } catch (error) {
-        showMessage(error.message, 'error');
-    }
-});
-
 // Função para formatar a data no padrão abrasileirado
 function formatarData(dataISO) {
     if (!dataISO) return '';
@@ -220,6 +112,47 @@ function formatarData(dataISO) {
     return `${dia}/${mes}/${ano}`;
 }
 
+// Chama a função de carregar mesas ao carregar a página
+document.addEventListener('DOMContentLoaded', () => {
+    carregarMesas();
+    carregarGarcons();
+    refreshInterval = setInterval(carregarMesas, 10000);
+});
+
+// Carrega a lista de garçons disponíveis
+async function carregarGarcons() {
+    try {
+        const response = await fetch(`${urlDaAPI}/garcons`);
+        const { success, data, error } = await response.json();
+        
+        if (!success) throw new Error(error || 'Erro ao carregar garçons');
+        
+        garconsDisponiveis = data;
+        atualizarSelectGarcons();
+    } catch (error) {
+        console.error('Erro ao carregar garçons:', error);
+        showMessage('Erro ao carregar lista de garçons', 'error');
+    }
+}
+
+// Preenche o select com os garçons
+function atualizarSelectGarcons() {
+    const select = document.querySelector('#select-garcom');
+    
+    // Limpa opções existentes, mantendo a primeira
+    while (select.options.length > 1) {
+        select.remove(1);
+    }
+    
+    // Adiciona os garçons disponíveis
+    garconsDisponiveis.forEach(garcom => {
+        const option = document.createElement('option');
+        option.value = garcom.id;
+        option.textContent = garcom.nome;
+        select.appendChild(option);
+    });
+}
+
 // Carrega as mesas inicialmente e a cada 10 segundos
 carregarMesas();
-setInterval(carregarMesas, 10000); // Atualiza a cada 10 segundos
+setInterval(carregarMesas, 10000); 

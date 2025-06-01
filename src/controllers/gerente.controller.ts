@@ -72,59 +72,58 @@ export const relatorioPorMesa = async (req: Request, res: Response) => {
 
 // Reservas feitas pelo cliente garçom
 export const relatorioPorGarcom = async (req: Request, res: Response) => {
+  const { garcom } = req.query;
 
   try {
-      // Consulta otimizada apenas para reservas confirmadas
-      const query = `
+      // Consulta para obter todos os garçons ativos (para o dropdown)
+      const garconsAtivos = await dbPool.query(
+          `SELECT nome FROM garcons WHERE ativo = TRUE ORDER BY nome`
+      );
+
+      // Consulta principal filtrada ou não por garçom
+      let query = `
           SELECT 
               r.id,
-              r.data,
+              TO_CHAR(r.data, 'DD/MM/YYYY') as data_formatada,
               r.hora,
               r.numero_mesa,
               r.qtd_pessoas,
-              r.nome_responsavel,
+              COALESCE(r.nome_responsavel, 'Não informado') as nome_cliente,
               r.garcom_responsavel,
-              m.ocupada
+              g.nome as nome_garcom
           FROM reservas r
-          JOIN mesas m ON r.numero_mesa = m.numero
+          JOIN garcons g ON r.garcom_responsavel = g.nome
           WHERE r.status = 'confirmada'
-          ORDER BY r.nome_responsavel, r.data
-          LIMIT 1000`; 
+      `;
 
-      const client = await dbPool.connect();
+      const params = [];
       
-      try {
-          const resultado = await client.query(query);
-          
-          if (resultado.rows.length === 0) {
-              return res.status(404).json({
-                  success: false,
-                  error: 'Nenhuma reserva confirmada encontrada'
-              });
-          }
-
-          // Agrupa por garçom
-          const porGarcom = resultado.rows.reduce((acc, reserva) => {
-              const garcom = reserva.garcom_responsavel;
-              if (!acc[garcom]) {
-                  acc[garcom] = [];
-              }
-              acc[garcom].push(reserva);
-              return acc;
-          }, {});
-
-          res.json({
-              success: true,
-              data: porGarcom
-          });
-      } finally {
-          client.release(); // Libera a conexão
+      if (garcom && garcom !== 'todos') {
+          query += ` AND r.garcom_responsavel = $1`;
+          params.push(garcom);
       }
+
+      query += ` ORDER BY r.garcom_responsavel, r.data, r.hora`;
+
+      const resultado = await dbPool.query(query, params);
+
+      // Formatação dos dados para o frontend
+      const relatorio = {
+          garcons: garconsAtivos.rows,
+          reservas: resultado.rows,
+          filtroAtual: garcom || 'todos'
+      };
+
+      res.json({
+          success: true,
+          data: relatorio
+      });
+
   } catch (error) {
       console.error('Erro no relatório por garçom:', error);
       res.status(500).json({
           success: false,
-          error: 'Erro ao gerar relatório',
+          error: 'Erro ao gerar relatório'
       });
   }
 };

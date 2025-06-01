@@ -1,9 +1,12 @@
-const API_BASE_URL = 'http://localhost:3000/atendente';
+const urlDaAPI = 'http://localhost:3000/atendente';
+const formReserva = document.querySelector('#form-reserva');
+const formCancel = document.querySelector('#form-cancelar');
 
-document.getElementById('form-reserva').addEventListener('submit', async (e) => {
+// Evento de envio do formulário
+formReserva.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const dataInput = document.getElementById('data').value;
+    const dataInput = document.querySelector('#data').value;
     const dataReserva = new Date(dataInput);
     const hoje = new Date();
     hoje.setHours(0, 0, 0, 0);
@@ -20,15 +23,15 @@ document.getElementById('form-reserva').addEventListener('submit', async (e) => 
     }
 
     const reserva = {
-        data: document.getElementById('data').value,
-        hora: document.getElementById('hora').value,
-        numero_mesa: document.getElementById('numero-mesa').value,
-        qtd_pessoas: document.getElementById('qtd-pessoas').value,
-        nome_responsavel: document.getElementById('nome-responsavel').value
+        data: document.querySelector('#data').value,
+        hora: document.querySelector('#hora').value,
+        numero_mesa: document.querySelector('#numero-mesa').value,
+        qtd_pessoas: document.querySelector('#qtd-pessoas').value,
+        nome_responsavel: document.querySelector('#nome-responsavel').value
     };
 
     try {
-        const response = await fetch(`${API_BASE_URL}/reservas`, {
+        const response = await fetch(`${urlDaAPI}/reservas`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -40,7 +43,7 @@ document.getElementById('form-reserva').addEventListener('submit', async (e) => 
 
         if (response.ok) {
             showMessage('Reserva realizada com sucesso', 'success');
-            document.getElementById('form-reserva').reset();
+            document.querySelector('#form-reserva').reset();
         } else {
             showMessage(data.erro, 'error');
         }
@@ -49,12 +52,13 @@ document.getElementById('form-reserva').addEventListener('submit', async (e) => 
     }
 });
 
-document.getElementById('form-cancelar').addEventListener('submit', async (e) => {
+// Evento de envio do formulário
+formCancel.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const id = document.getElementById('id-reserva').value;
+    const id = document.querySelector('#id-reserva').value;
 
     try {
-        const response = await fetch(`${API_BASE_URL}/reservas/cancelar`, {
+        const response = await fetch(`${urlDaAPI}/reservas/cancelar`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -82,8 +86,9 @@ document.getElementById('form-cancelar').addEventListener('submit', async (e) =>
     }
 });
 
+// Função para exibir mensagens
 function showMessage(message, type) {
-    const msgDiv = document.getElementById('mensagem');
+    const msgDiv = document.querySelector('#mensagem');
     msgDiv.textContent = message;
     msgDiv.className = type;
 }
