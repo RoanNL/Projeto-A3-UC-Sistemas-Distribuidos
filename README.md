@@ -1,208 +1,130 @@
-# Projeto-A3-UC-Sistemas-Distribuidos
-**Documentação de Instalação - Sistema de Reservas de Restaurante**  
+# Projeto-A3-UC-Sistemas-Distribuidos  
+**Documentação de Instalação via Docker**  
 **Disciplina:** Sistemas Distribuídos e Mobile  
-**Turma:** Quarta/Matutina  
+**Turma:** Quarta/Matutino  
 **Data de Entrega:** 11/06/2025  
 
 ---
 
 # 1. Requisitos do Sistema
 
-# 1.1. Pré-requisitos
-Antes de iniciar, verifique se os seguintes componentes estão instalados:  
-
-| **Componente**       | **Versão Recomendada** | **Link de Download**                     |
-|----------------------|------------------------|------------------------------------------|
-| Node.js              | 18.x ou superior       | [https://nodejs.org/](https://nodejs.org/) |
-| PostgreSQL           | 15.x ou superior       | [https://www.postgresql.org/download/](https://www.postgresql.org/download/) |
-
----
-
-# 2. Instalação do Banco de Dados (PostgreSQL)
-
-# 2.1. Configuração Inicial
-# 1. Instale o PostgreSQL: seguindo o instalador do seu sistema operacional.  
-
-   **Lembre de verificar se o path do postgresql está configurado** 
-
-   **Passo a passo para verificar**
-(
-
-**Passo 1** -> Pressione Win + R, digite `sysdm.cpl` e clique em OK.
-
-**Passo 2** -> Vá para a aba "Avançado" > "Variáveis de Ambiente".
-
-**Passo 3** -> Em "Variáveis do sistema", selecione a variável Path e clique em "Editar".
-
-**Passo 4** -> Clique em "Novo" e adicione o caminho completo da pasta bin:
-
-`C:\Program Files\PostgreSQL\(Versão que instalou do postgreSQL)\bin)`
-
-)
-
-para verificar se está tudo certo digite no cmd ou powershell: `psql --version`, se aparecer algo que represente a versão do seu postgreSQL então está tudo certo!!
-
-   **Lembre de utilizar a sua senha do usuário padrão (postgres) para acessar os proxímos passos, caso não lembre da senha, re-instale o postgreSQL e anote a senha que escolher no instalador, será extremamente necessário para a criação do banco de dados e conexão com a API**  
-
-**Nota: deixarei em cima dos comando um (CMD/Bash ou algum outro), eles vão representar onde o senhor vai executa-los para dar seguimento e não ficar perdido**
-
-   
-
-# 2.2. Criação do Banco de Dados
-# 2. Abra o terminal:  e execute o comando abaixo para acessar o PostgreSQL:
-1. Acesse seu usuário do postgreSQL:
-
-   CMD/Bash
-
-   `psql -U postgres`
-
-2. Crie o banco de dados:  
-
-    sql
-
-   `CREATE DATABASE restaurant_reservations;`
-    
-3. Conecte-se ao banco criado:
-
-    sql
-
-   `\c restaurant_reservations`
-   
-4. Execute o script `schema.sql` para criar as tabelas, abra o terminal na pasta do projeto:  
-
-   CMD/Bash
-
-   `psql -U postgres -d restaurant_reservations -a -f scripts/schema.sql`
-
-
-# 2.3. Configuração de Acesso
-Edite o arquivo `pg_hba.conf` ( no linux fica localizado em `/etc/postgresql/[versão]/main/` | no windows fica localizado em `C:\Program Files\PostgreSQL\[versão]\data`) para permitir conexões:  
-
-# Adicione esta linha:
-`host    all             all             127.0.0.1/32            md5`
+## 1.1. Pré-requisitos
+| **Componente**       | **Linux/Mac** | **Windows** | **Link** |
+|----------------------|--------------|------------|----------|
+| Docker              | `sudo apt install docker.io` | Docker Desktop | [docker.com](https://docker.com) |
+| Docker Compose      | `sudo apt install docker-compose` | Incluído no Docker Desktop | - |
+| Git                 | `sudo apt install git` | Git for Windows | [git-scm.com](https://git-scm.com) |
 
 ---
 
-# 3. Configuração do Backend (Node.js/Express)
+# 2. Configuração do Ambiente Docker
+
+## 2.1. Preparação Inicial
+
+### Linux/Mac:
+`bash
+# Clone o repositório
+git clone https://github.com/RoanNL/Projeto-A3-UC-Sistemas-Distribuidos.git
+cd Projeto-A3-UC-Sistemas-Distribuidos
+
+# Configure as variáveis de ambiente
+cp .env.example .env
+nano .env  # Edite com suas configurações
+Windows (PowerShell):
+powershell
+
+# Clone o repositório
+git clone https://github.com/RoanNL/Projeto-A3-UC-Sistemas-Distribuidos.git
+cd Projeto-A3-UC-Sistemas-Distribuidos
+
+# Configure as variáveis
+Copy-Item .env.example .env
+notepad .env  # Edite com suas configurações
 
 
-## 3.1. Instalação das Dependências
-1. Acesse a pasta raiz do projeto:  
-   
-   CMD/Bash
-   
-   `cd server`
+### 3. Execução do Sistema
+### 3.1. Iniciando os Containers
+Para Linux/Mac:
+bash
+# Construa e inicie os containers
+docker-compose up --build -d
 
-2. Instale os pacotes necessários:  
-   
-   CMD/Bash
-   
-   `npm install`
- 
- 
-## 3.2. Configuração do Ambiente
-1. Crie um arquivo `.env` na pasta raiz do projeto com:  
-   
-   ( DATABASE_URL=postgresql://postgres:senha@localhost:5432/restaurant_reservations
-   PORT=3000 )
-    
-   > **Nota:** Substitua `senha` pela senha do seu PostgreSQL.
+# Verifique os logs
+docker-compose logs -f backend
+Para Windows:
+powershell
+# Construa e inicie os containers
+docker-compose up --build -d
 
-2. **Inicie o servidor:**  
-   
-   CMD/Bash
+# Verifique os logs
+docker-compose logs -f backend
 
-   `npm run dev` 
-     
-   Saída esperada:  
-  
-  ```
-   🚀 Servidor rodando na porta 3000
-   ✔ Conectado ao PostgreSQL com sucesso!
-  ```
+## 3.2. Acessando o Banco de Dados
+Linux/Mac:
 
----
+bash
+`docker-compose exec db psql -U postgres -d restaurant_reservations`
 
-# 4. Configuração do Frontend
+Windows:
 
-## 4.1. Execução
-1. Abra os arquivos HTML diretamente no navegador:  
-   - **Atendente:** `frontend/cliente-atendente/index.html`  
-   - **Garçom:** `frontend/cliente-garcom/index.html`  
-   - **Gerente:** `frontend/cliente-gerente/index.html`  
+powershell
+`docker-compose exec db psql -U postgres -d restaurant_reservations`
 
-2. **Para desenvolvimento**, use a extensão **Live Server** do VSCode para evitar problemas com CORS.
+### 4. Acesso aos Serviços
 
----
-
-# 5. Testes Iniciais
-
-## 5.1. Banco de Dados
-Verifique se as tabelas foram criadas:  
-
-    sql
-
-   ` \dt `
-
-Saída esperada:  
-
-          Lista de relações
-| Esquema |   Nome    | Tipo   |  Dono|
-|---------|-----------|--------|--------|
-| public  | garcons   | tabela | postgres|
-| public  | mesas     | tabela | postgres|
-| public  | reservas  | tabela | postgres|
+|Interface	|URL	|Comando de Verificação|
+|-----------|-----|--------------------------|
+|Atendente	|http://localhost:8080/atendente	|curl http://localhost:3000/atendente/reservas|
+|Garçom	|http://localhost:8080/garcom	|curl http://localhost:3000/garcom/mesas|
+|Gerente	|http://localhost:8080/gerente	|curl http://localhost:3000/gerente/relatorios|
 
 
-## 5.2. API
-Teste os endpoints com **Postman** ou **curl**:  
+### 5. Comandos Úteis
 
-CMD/Bash
+Linux/Mac:
 
-`curl http://localhost:3000/gerente/garcons` 
+bash
+# Reiniciar um serviço específico
+docker-compose restart backend
 
-Resposta esperada (JSON):  
+# Limpar tudo
+docker-compose down -v
 
-[] 
+Windows:
+powershell
+# Reiniciar um serviço específico
+docker-compose restart backend
 
----
+# Limpar tudo
+docker-compose down -v
 
-# 6. Solução de Problemas Comuns
-
-| **Problema**                          | **Solução**                                                                 |
-|---------------------------------------|-----------------------------------------------------------------------------|
-| Erro de conexão com PostgreSQL        | Verifique se o serviço está rodando (`service postgresql status`).     |
-| Porta 3000 em uso                     | Altere a `PORT` no `.env` ou execute `kill -9 $(lsof -t -i:3000)`.          |
-| Dados não persistem                   | Confira se o `schema.sql` foi executado sem erros.                          |
-
----
-
-# 7. Diagrama de Arquitetura
+### 6. Solução de Problemas
 
 
-Cliente (Frontend) → API REST (Node.js/Express) → PostgreSQL
-       (HTML/JS/CSS)   ↑↓ JSON                   ↑↓ SQL
+### 7. Diagrama de Arquitetura
+Clientes (Browser)
+       ↓
+Nginx (Frontend:8080)
+       ↓
+Node.js (Backend:3000)
+       ↓
+PostgreSQL (db:5432)
 
 
+### Equipe:
+**Roan Nascimento Lisboa (Backend)**
 
-**Próximos Passos:**  
- 1. vídeo de apresentação do trabalho: 
+**Alice Martins Bahiense Bezerra Bauler (Frontend)**
 
-**Equipe:**  
-Roan Nascimento Lisboa, Backend
+**Catarina dos Santos Romeiro (Frontend)**
 
-Alice Martins Bahiense Bezerra Bauler, Frontend
+**Eduardo Copque da Silva (Documentação/Backend)**
 
-Catarina dos Santos Romeiro, Frontend
+Repositório:
+https://github.com/RoanNL/Projeto-A3-UC-Sistemas-Distribuidos
 
-Eduardo Copque da Silva, Documentação e Backend
-
-**Repositório GitHub:** https://github.com/RoanNL/Projeto-A3-UC-Sistemas-Distribuidos
-
---- 
-
-Este documento garante que todos os requisitos da UC sejam atendidos, incluindo:  
-✔ Comunicação via API REST  
-✔ Banco de dados relacional (PostgreSQL)  
-✔ Três tipos de clientes com interfaces específicas  
-✔ Instruções claras para replicação do ambiente.
+Este documento garante:
+✔ Configuração simplificada via Docker
+✔ Comandos específicos para cada SO
+✔ Arquitetura containerizada
+✔ Três interfaces de usuário distintas

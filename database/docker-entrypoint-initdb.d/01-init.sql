@@ -1,3 +1,10 @@
+
+-- Limpa o banco de dados
+DROP TABLE IF EXISTS reservas CASCADE;
+DROP TABLE IF EXISTS mesas CASCADE;
+DROP TABLE IF EXISTS garcons CASCADE;
+
+
 -- cria a tabela de garçons (sem dependências)
 CREATE TABLE IF NOT EXISTS garcons (
     id SERIAL PRIMARY KEY,
@@ -11,7 +18,7 @@ CREATE TABLE IF NOT EXISTS reservas (
     id SERIAL PRIMARY KEY,
     data DATE NOT NULL,
     hora TIME NOT NULL,
-    numero_mesa INTEGER NOT NULL CHECK (numero_mesa BETWEEN 1 AND 20),
+    numero_mesa INTEGER NOT NULL CHECK (numero_mesa BETWEEN 1 AND 21),
     qtd_pessoas INTEGER NOT NULL CHECK (qtd_pessoas > 0),
     nome_responsavel VARCHAR(100) NOT NULL,
     garcom_responsavel VARCHAR(100),
@@ -22,7 +29,7 @@ CREATE TABLE IF NOT EXISTS reservas (
 
 -- cria a tabela de mesas 
 CREATE TABLE IF NOT EXISTS mesas (
-    numero INTEGER PRIMARY KEY CHECK (numero BETWEEN 1 AND 20),
+    numero INTEGER PRIMARY KEY CHECK (numero BETWEEN 1 AND 21),
     ocupada BOOLEAN NOT NULL DEFAULT FALSE,
     reserva_id INTEGER,
     FOREIGN KEY (reserva_id) REFERENCES reservas(id) ON DELETE SET NULL

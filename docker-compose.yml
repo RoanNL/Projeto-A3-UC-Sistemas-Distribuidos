@@ -1,0 +1,55 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: restaurante_db
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - restaurante-network
+
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: restaurante_backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    networks:
+      - restaurante-network
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: restaurante_frontend
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    networks:
+      - restaurante-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  restaurante-network:
+    driver: bridge
