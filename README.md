@@ -64,7 +64,6 @@ PORT=3000
 
 # Para Linux/Mac:
 
-**bash**
 Construa e inicie os containers:
 
 Abra o terminal na pasta raiz:
@@ -74,6 +73,8 @@ Abra o terminal na pasta raiz:
 **passo 2: clique com o botão direito do mouse e selecione a opção (abrir no terminal)**
 
 **passo 3: rode o comando abaixo:**
+
+**bash**
 
 `docker-compose up --build -d`
 
@@ -90,10 +91,17 @@ saida esperada:
 
 ## Para Windows:
 
-**powershell**
-
 Construa e inicie os containers:
-Abra o terminal na pasta raiz: 
+
+Abra o terminal na pasta raiz:
+
+**passo 1: abra a pasta raiz (Projeto-A3-UC-Sistemas-Distribuido)**
+
+**passo 2: clique com o botão direito do mouse e selecione a opção (abrir no terminal)**
+
+**passo 3: rode o comando abaixo:**
+
+**powershell**
 
 `docker-compose up --build -d`
 
