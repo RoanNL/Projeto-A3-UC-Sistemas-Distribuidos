@@ -65,10 +65,20 @@ PORT=3000
 # Para Linux/Mac:
 
 **bash**
-Construa e inicie os containers
+Construa e inicie os containers:
+
+Abra o terminal na pasta raiz:
+
+**passo 1: abra a pasta raiz (Projeto-A3-UC-Sistemas-Distribuido)**
+
+**passo 2: clique com o botão direito do mouse e selecione a opção (abrir no terminal)**
+
+**passo 3: rode o comando abaixo:**
+
 `docker-compose up --build -d`
 
 Verifique os logs:
+
 `docker-compose logs -f backend`
 
 saida esperada:
@@ -81,10 +91,14 @@ saida esperada:
 ## Para Windows:
 
 **powershell**
-Construa e inicie os containers: 
+
+Construa e inicie os containers:
+Abra o terminal na pasta raiz: 
+
 `docker-compose up --build -d`
 
 Verifique os logs:
+
 `docker-compose logs -f backend`
 
 
@@ -99,9 +113,11 @@ saida esperada:
 
 # Linux/Mac:
 **bash**
+
 `docker-compose exec db psql -U postgres -d restaurant_reservations`
 
 digite para ver as tabelas:
+
 `\dt`
 
 saida esperada:
@@ -114,9 +130,11 @@ saida esperada:
 
 # Windows:
 **powershell**
+
 `docker-compose exec db psql -U postgres -d restaurant_reservations`
 
 digite para ver as tabelas:
+
 `\dt`
 
 saida esperada:
@@ -139,21 +157,27 @@ saida esperada:
 # Linux/Mac:
 
 **bash**
+
 Reiniciar um serviço específico:
+
 `docker-compose restart backend`
 `docker-compose restart frontend`
 
 Limpar tudo:
+
 `docker-compose down -v`
 
 # Windows:
 
 **powershell**
+
 Reiniciar um serviço específico:
+
 `docker-compose restart backend`
 `docker-compose restart frontend`
 
-Limpar tudo::
+Limpar tudo:
+
 `docker-compose down -v`
 
 
