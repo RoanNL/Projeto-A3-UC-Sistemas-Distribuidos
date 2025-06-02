@@ -171,14 +171,14 @@ saida esperada:
 |public|mesas|table|postgres|
 |public|reservas|table|postgres|
 
-### 4. Acesso aos Serviços
+# 4. Acesso aos Serviços
 
 |**Interface**	|**URL**	|
 |-----------|-----|
 |Front-end	|http://localhost	|
 |Back-end	|http://localhost:3000	|
 
-### 5. Comandos Úteis
+# 5. Comandos Úteis
 
 # Linux/Mac:
 
@@ -207,7 +207,7 @@ Limpar tudo:
 `docker-compose down -v`
 
 
-### 6. Diagrama de Arquitetura
+# 6. Diagrama de Arquitetura
 Clientes (Browser)
 
 ↓
