@@ -13,7 +13,6 @@
 |----------------------|--------------|------------|----------|
 | Docker              | `sudo apt install docker.io` | Docker Desktop | [docker.com](https://docker.com) |
 | Docker Compose      | `sudo apt install docker-compose` | Incluído no Docker Desktop | - |
-| Git                 | `sudo apt install git` | Git for Windows | [git-scm.com](https://git-scm.com) |
 
 ---
 
