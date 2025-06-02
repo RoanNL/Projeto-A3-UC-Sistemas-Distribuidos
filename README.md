@@ -120,6 +120,15 @@ saida esperada:
 ## 3.2. Acessando o Banco de Dados no terminal
 
 # Linux/Mac:
+
+Abra o terminal na pasta raiz:
+
+**passo 1: abra a pasta raiz (Projeto-A3-UC-Sistemas-Distribuido)**
+
+**passo 2: clique com o botão direito do mouse e selecione a opção (abrir no terminal)**
+
+**passo 3: rode o comando abaixo:**
+
 **bash**
 
 `docker-compose exec db psql -U postgres -d restaurant_reservations`
@@ -137,6 +146,15 @@ saida esperada:
 |public|reservas|table|postgres|
 
 # Windows:
+
+Abra o terminal na pasta raiz:
+
+**passo 1: abra a pasta raiz (Projeto-A3-UC-Sistemas-Distribuido)**
+
+**passo 2: clique com o botão direito do mouse e selecione a opção (abrir no terminal)**
+
+**passo 3: rode o comando abaixo:**
+
 **powershell**
 
 `docker-compose exec db psql -U postgres -d restaurant_reservations`
@@ -192,18 +210,16 @@ Limpar tudo:
 ### 6. Diagrama de Arquitetura
 Clientes (Browser)
 
-       ↓
+↓
 
 Nginx (Frontend:8080)
-
-       ↓
+↓
 
 Node.js (Backend:3000)
 
-       ↓
+↓
 
 PostgreSQL (db:5432)
-
 
 ### Equipe:
 **Roan Nascimento Lisboa (Backend)**
