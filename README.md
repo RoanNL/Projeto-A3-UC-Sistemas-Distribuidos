@@ -92,6 +92,8 @@ saida esperada:
 
 Construa e inicie os containers:
 
+**Abra o Docker Desktop no seu computador**
+
 Abra o terminal na pasta raiz:
 
 **passo 1: abra a pasta raiz (Projeto-A3-UC-Sistemas-Distribuido)**
