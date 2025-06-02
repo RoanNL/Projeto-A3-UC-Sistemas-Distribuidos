@@ -30,10 +30,12 @@
 
 **passo 4: abra o .env como bloco de notas e coloque esses comandos:**
 
+```
 DB_USER=postgres
 DB_PASSWORD=123321
 DB_NAME=restaurant_reservations
 PORT=3000
+```
 
 **passo 5: Salve o bloco de notas e saia**
 
@@ -48,10 +50,12 @@ PORT=3000
 
 **passo 4: abra o .env como bloco de notas e coloque esses comandos:**
 
+```
 DB_USER=postgres
 DB_PASSWORD=123321
 DB_NAME=restaurant_reservations
 PORT=3000
+```
 
 **passo 5: Salve o bloco de notas e saia**
 
