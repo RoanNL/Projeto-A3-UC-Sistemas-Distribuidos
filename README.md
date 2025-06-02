@@ -40,7 +40,7 @@ PORT=3000
 **passo 5: Salve o bloco de notas e saia**
 
 
-# Windows (PowerShell):
+### Windows (PowerShell):
 
 **passo 1: Baixe a pasta raiz do projeto pelo github**
 
@@ -59,10 +59,10 @@ PORT=3000
 
 **passo 5: Salve o bloco de notas e saia**
 
-### 3. Execução do Sistema
-### 3.1. Iniciando os Containers
+# 3. Execução do Sistema
+## 3.1. Iniciando os Containers
 
-# Para Linux/Mac:
+### Linux/Mac:
 
 Construa e inicie os containers:
 
@@ -89,7 +89,7 @@ saida esperada:
  ✔ Conectado ao PostgreSQL com sucesso!
 ```
 
-## Para Windows:
+### Windows:
 
 Construa e inicie os containers:
 
@@ -119,7 +119,7 @@ saida esperada:
 
 ## 3.2. Acessando o Banco de Dados no terminal
 
-# Linux/Mac:
+### Linux/Mac:
 
 Abra o terminal na pasta raiz:
 
@@ -145,7 +145,7 @@ saida esperada:
 |public|mesas|table|postgres|
 |public|reservas|table|postgres|
 
-# Windows:
+### Windows:
 
 Abra o terminal na pasta raiz:
 
@@ -180,7 +180,7 @@ saida esperada:
 
 # 5. Comandos Úteis
 
-# Linux/Mac:
+### Linux/Mac:
 
 **bash**
 
@@ -193,7 +193,7 @@ Limpar tudo:
 
 `docker-compose down -v`
 
-# Windows:
+### Windows:
 
 **powershell**
 
@@ -213,6 +213,7 @@ Clientes (Browser)
 ↓
 
 Nginx (Frontend:8080)
+
 ↓
 
 Node.js (Backend:3000)
@@ -221,7 +222,7 @@ Node.js (Backend:3000)
 
 PostgreSQL (db:5432)
 
-### Equipe:
+# Equipe:
 **Roan Nascimento Lisboa (Backend)**
 
 **Alice Martins Bahiense Bezerra Bauler (Frontend)**
@@ -230,13 +231,5 @@ PostgreSQL (db:5432)
 
 **Eduardo Copque da Silva (Documentação/Backend)**
 
-Repositório: https://github.com/RoanNL/Projeto-A3-UC-Sistemas-Distribuidos
+**Repositório:** https://github.com/RoanNL/Projeto-A3-UC-Sistemas-Distribuidos
 
-Este documento garante:
-✔ Configuração simplificada via Docker
-
-✔ Comandos específicos para cada SO
-
-✔ Arquitetura containerizada
-
-✔ Três interfaces de usuário distintas
