@@ -1,208 +1,236 @@
-# Projeto-A3-UC-Sistemas-Distribuidos
-**Documentação de Instalação - Sistema de Reservas de Restaurante**  
+# Projeto-A3-UC-Sistemas-Distribuidos  
+**Documentação de Instalação via Docker**  
 **Disciplina:** Sistemas Distribuídos e Mobile  
-**Turma:** Quarta/Matutina  
+**Turma:** Quarta/Matutino  
 **Data de Entrega:** 11/06/2025  
 
 ---
 
 # 1. Requisitos do Sistema
 
-# 1.1. Pré-requisitos
-Antes de iniciar, verifique se os seguintes componentes estão instalados:  
-
-| **Componente**       | **Versão Recomendada** | **Link de Download**                     |
-|----------------------|------------------------|------------------------------------------|
-| Node.js              | 18.x ou superior       | [https://nodejs.org/](https://nodejs.org/) |
-| PostgreSQL           | 15.x ou superior       | [https://www.postgresql.org/download/](https://www.postgresql.org/download/) |
+## 1.1. Pré-requisitos
+| **Componente**       | **Linux/Mac** | **Windows** | **Link** |
+|----------------------|--------------|------------|----------|
+| Docker              | `sudo apt install docker.io` | Docker Desktop | [docker.com](https://docker.com) |
+| Docker Compose      | `sudo apt install docker-compose` | Incluído no Docker Desktop | - |
 
 ---
 
-# 2. Instalação do Banco de Dados (PostgreSQL)
+# 2. Configuração do Ambiente Docker
+## 2.1. Confiração inicial
 
-# 2.1. Configuração Inicial
-# 1. Instale o PostgreSQL: seguindo o instalador do seu sistema operacional.  
+### Linux/Mac:
 
-   **Lembre de verificar se o path do postgresql está configurado** 
+**passo 1: Baixe a pasta raiz do projeto pelo github**
 
-   **Passo a passo para verificar**
-(
+**passo 2: Acesse a pasta raiz (Projeto-A3-UC-Sistemas-Distribuido)**
 
-**Passo 1** -> Pressione Win + R, digite `sysdm.cpl` e clique em OK.
+**passo 3: Crie um arquivo para as variáveis ambiente (.env)**
 
-**Passo 2** -> Vá para a aba "Avançado" > "Variáveis de Ambiente".
+**passo 4: abra o .env como bloco de notas e coloque esses comandos:**
 
-**Passo 3** -> Em "Variáveis do sistema", selecione a variável Path e clique em "Editar".
+```
+DB_USER=postgres
+DB_PASSWORD=123321
+DB_NAME=restaurant_reservations
+PORT=3000
+```
 
-**Passo 4** -> Clique em "Novo" e adicione o caminho completo da pasta bin:
+**passo 5: Salve o bloco de notas e saia**
 
-`C:\Program Files\PostgreSQL\(Versão que instalou do postgreSQL)\bin)`
 
-)
+### Windows (PowerShell):
 
-para verificar se está tudo certo digite no cmd ou powershell: `psql --version`, se aparecer algo que represente a versão do seu postgreSQL então está tudo certo!!
+**passo 1: Baixe a pasta raiz do projeto pelo github**
 
-   **Lembre de utilizar a sua senha do usuário padrão (postgres) para acessar os proxímos passos, caso não lembre da senha, re-instale o postgreSQL e anote a senha que escolher no instalador, será extremamente necessário para a criação do banco de dados e conexão com a API**  
+**passo 2: Acesse a pasta raiz (Projeto-A3-UC-Sistemas-Distribuido)**
 
-**Nota: deixarei em cima dos comando um (CMD/Bash ou algum outro), eles vão representar onde o senhor vai executa-los para dar seguimento e não ficar perdido**
+**passo 3: Crie um arquivo para as variáveis ambiente (.env)**
 
-   
+**passo 4: abra o .env como bloco de notas e coloque esses comandos:**
 
-# 2.2. Criação do Banco de Dados
-# 2. Abra o terminal:  e execute o comando abaixo para acessar o PostgreSQL:
-1. Acesse seu usuário do postgreSQL:
+```
+DB_USER=postgres
+DB_PASSWORD=123321
+DB_NAME=restaurant_reservations
+PORT=3000
+```
 
-   CMD/Bash
+**passo 5: Salve o bloco de notas e saia**
 
-   `psql -U postgres`
+# 3. Execução do Sistema
+## 3.1. Iniciando os Containers
 
-2. Crie o banco de dados:  
+### Linux/Mac:
 
-    sql
+Construa e inicie os containers:
 
-   `CREATE DATABASE restaurant_reservations;`
-    
-3. Conecte-se ao banco criado:
+Abra o terminal na pasta raiz:
 
-    sql
+**passo 1: abra a pasta raiz (Projeto-A3-UC-Sistemas-Distribuido)**
 
-   `\c restaurant_reservations`
-   
-4. Execute o script `schema.sql` para criar as tabelas, abra o terminal na pasta do projeto:  
+**passo 2: clique com o botão direito do mouse e selecione a opção (abrir no terminal)**
 
-   CMD/Bash
+**passo 3: rode o comando abaixo:**
 
-   `psql -U postgres -d restaurant_reservations -a -f scripts/schema.sql`
+**bash**
 
+`docker-compose up --build -d`
 
-# 2.3. Configuração de Acesso
-Edite o arquivo `pg_hba.conf` ( no linux fica localizado em `/etc/postgresql/[versão]/main/` | no windows fica localizado em `C:\Program Files\PostgreSQL\[versão]\data`) para permitir conexões:  
+Verifique os logs:
 
-# Adicione esta linha:
-`host    all             all             127.0.0.1/32            md5`
+`docker-compose logs -f backend`
 
----
+saida esperada:
 
-# 3. Configuração do Backend (Node.js/Express)
+```
+ 🚀 Servidor rodando na porta 3000
+ ✔ Conectado ao PostgreSQL com sucesso!
+```
 
+### Windows:
 
-## 3.1. Instalação das Dependências
-1. Acesse a pasta raiz do projeto:  
-   
-   CMD/Bash
-   
-   `cd server`
+Construa e inicie os containers:
 
-2. Instale os pacotes necessários:  
-   
-   CMD/Bash
-   
-   `npm install`
- 
- 
-## 3.2. Configuração do Ambiente
-1. Crie um arquivo `.env` na pasta raiz do projeto com:  
-   
-   ( DATABASE_URL=postgresql://postgres:senha@localhost:5432/restaurant_reservations
-   PORT=3000 )
-    
-   > **Nota:** Substitua `senha` pela senha do seu PostgreSQL.
+**Abra o Docker Desktop no seu computador**
 
-2. **Inicie o servidor:**  
-   
-   CMD/Bash
+Abra o terminal na pasta raiz:
 
-   `npm run dev` 
-     
-   Saída esperada:  
-  
-  ```
-   🚀 Servidor rodando na porta 3000
-   ✔ Conectado ao PostgreSQL com sucesso!
-  ```
+**passo 1: abra a pasta raiz (Projeto-A3-UC-Sistemas-Distribuido)**
 
----
+**passo 2: clique com o botão direito do mouse e selecione a opção (abrir no terminal)**
 
-# 4. Configuração do Frontend
+**passo 3: rode o comando abaixo:**
 
-## 4.1. Execução
-1. Abra os arquivos HTML diretamente no navegador:  
-   - **Atendente:** `frontend/cliente-atendente/index.html`  
-   - **Garçom:** `frontend/cliente-garcom/index.html`  
-   - **Gerente:** `frontend/cliente-gerente/index.html`  
+**powershell**
 
-2. **Para desenvolvimento**, use a extensão **Live Server** do VSCode para evitar problemas com CORS.
+`docker-compose up --build -d`
 
----
+Verifique os logs:
 
-# 5. Testes Iniciais
+`docker-compose logs -f backend`
 
-## 5.1. Banco de Dados
-Verifique se as tabelas foram criadas:  
 
-    sql
+saida esperada:
 
-   ` \dt `
+```
+ 🚀 Servidor rodando na porta 3000
+ ✔ Conectado ao PostgreSQL com sucesso!
+```
 
-Saída esperada:  
+## 3.2. Acessando o Banco de Dados no terminal
 
-          Lista de relações
-| Esquema |   Nome    | Tipo   |  Dono|
-|---------|-----------|--------|--------|
-| public  | garcons   | tabela | postgres|
-| public  | mesas     | tabela | postgres|
-| public  | reservas  | tabela | postgres|
+### Linux/Mac:
 
+Abra o terminal na pasta raiz:
 
-## 5.2. API
-Teste os endpoints com **Postman** ou **curl**:  
+**passo 1: abra a pasta raiz (Projeto-A3-UC-Sistemas-Distribuido)**
 
-CMD/Bash
+**passo 2: clique com o botão direito do mouse e selecione a opção (abrir no terminal)**
 
-`curl http://localhost:3000/gerente/garcons` 
+**passo 3: rode o comando abaixo:**
 
-Resposta esperada (JSON):  
+**bash**
 
-[] 
+`docker-compose exec db psql -U postgres -d restaurant_reservations`
 
----
+digite para ver as tabelas:
 
-# 6. Solução de Problemas Comuns
+`\dt`
 
-| **Problema**                          | **Solução**                                                                 |
-|---------------------------------------|-----------------------------------------------------------------------------|
-| Erro de conexão com PostgreSQL        | Verifique se o serviço está rodando (`service postgresql status`).     |
-| Porta 3000 em uso                     | Altere a `PORT` no `.env` ou execute `kill -9 $(lsof -t -i:3000)`.          |
-| Dados não persistem                   | Confira se o `schema.sql` foi executado sem erros.                          |
+saida esperada:
 
----
+|Schema|Name|Type|Owner|
+|------|----|----|-----|
+|public|garcons|table|postgres|
+|public|mesas|table|postgres|
+|public|reservas|table|postgres|
 
-# 7. Diagrama de Arquitetura
+### Windows:
 
+Abra o terminal na pasta raiz:
 
-Cliente (Frontend) → API REST (Node.js/Express) → PostgreSQL
-       (HTML/JS/CSS)   ↑↓ JSON                   ↑↓ SQL
+**passo 1: abra a pasta raiz (Projeto-A3-UC-Sistemas-Distribuido)**
 
+**passo 2: clique com o botão direito do mouse e selecione a opção (abrir no terminal)**
 
+**passo 3: rode o comando abaixo:**
 
-**Próximos Passos:**  
- 1. vídeo de apresentação do trabalho: 
+**powershell**
 
-**Equipe:**  
-Roan Nascimento Lisboa, Backend
+`docker-compose exec db psql -U postgres -d restaurant_reservations`
 
-Alice Martins Bahiense Bezerra Bauler, Frontend
+digite para ver as tabelas:
 
-Catarina dos Santos Romeiro, Frontend
+`\dt`
 
-Eduardo Copque da Silva, Documentação e Backend
+saida esperada:
 
-**Repositório GitHub:** https://github.com/RoanNL/Projeto-A3-UC-Sistemas-Distribuidos
+|Schema|Name|Type|Owner|
+|------|----|----|-----|
+|public|garcons|table|postgres|
+|public|mesas|table|postgres|
+|public|reservas|table|postgres|
 
---- 
+# 4. Acesso aos Serviços
 
-Este documento garante que todos os requisitos da UC sejam atendidos, incluindo:  
-✔ Comunicação via API REST  
-✔ Banco de dados relacional (PostgreSQL)  
-✔ Três tipos de clientes com interfaces específicas  
-✔ Instruções claras para replicação do ambiente.
+|**Interface**	|**URL**	|
+|-----------|-----|
+|Front-end	|http://localhost	|
+|Back-end	|http://localhost:3000	|
+
+# 5. Comandos Úteis
+
+### Linux/Mac:
+
+**bash**
+
+Reiniciar um serviço específico:
+
+`docker-compose restart backend`
+`docker-compose restart frontend`
+
+Limpar tudo:
+
+`docker-compose down -v`
+
+### Windows:
+
+**powershell**
+
+Reiniciar um serviço específico:
+
+`docker-compose restart backend`
+`docker-compose restart frontend`
+
+Limpar tudo:
+
+`docker-compose down -v`
+
+
+# 6. Diagrama de Arquitetura
+Clientes (Browser)
+
+↓
+
+Nginx (Frontend:8080)
+
+↓
+
+Node.js (Backend:3000)
+
+↓
+
+PostgreSQL (db:5432)
+
+# Equipe:
+**Roan Nascimento Lisboa (Backend)**
+
+**Alice Martins Bahiense Bezerra Bauler (Frontend)**
+
+**Catarina dos Santos Romeiro (Frontend)**
+
+**Eduardo Copque da Silva (Documentação/Backend)**
+
+**Repositório:** https://github.com/RoanNL/Projeto-A3-UC-Sistemas-Distribuidos
+
