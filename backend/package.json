@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node dist/index.js || ts-node backend/src/index.ts",
     "build": "tsc --skipLibCheck || echo 'Build falhou, continuando...'",
-    "dev": "ts-node-dev --respawn src/index.ts"
+    "dev": "ts-node-dev --respawn backend/src/index.ts"
   },
   "dependencies": {
     "cors": "^2.8.5",
