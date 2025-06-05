@@ -1,10 +1,13 @@
 :root {
-    --primary-color: #3498db;
-    --primary-dark: #2980b9;
+    --primary-color: #1c303d;
+    --primary-dark: #043252;
 }
 
 body {
-    background-color: #f8f9fa;
+    font-family: "Barlow Condensed";
+    line-height: 1.6;
+    color: #333;
+    background-color: #d0c6ac;
 }
 
 .header {
@@ -28,18 +31,22 @@ body {
 }
 
 .card {
-    background: white;
+    background: rgb(248, 246, 246);
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     padding: 30px;
     margin-bottom: 30px;
 }
 
+.card:hover {
+    transform:scale(1.01);
+}
+
 .card h2 {
     color: var(--primary-dark);
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 2px solid #eee;
+    border-bottom: 2px solid #dfdcdc;
 }
 
 .btn-primary {
@@ -59,6 +66,7 @@ body {
     text-decoration: none;
     margin-top: 20px;
     transition: background-color 0.3s;
+    margin-bottom: 20px;
 }
 
 .btn-back:hover {

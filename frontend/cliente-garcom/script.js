@@ -62,6 +62,9 @@ async function carregarMesas() {
             const mesaElement = document.createElement('div');
             mesaElement.className = `mesa ${mesa.ocupada ? 'ocupada' : ''}`;
             mesaElement.id = `mesa-${mesa.numero_mesa}`;
+            const horaFormatada = mesa.hora
+        ? mesa.hora.substring(0, 5)
+        : '--:--';
 
 
             let infoReserva = '';
@@ -70,7 +73,7 @@ async function carregarMesas() {
                 infoReserva = `
                     <div class="info-reserva">
                         <p>Cliente: ${mesa.cliente}</p>
-                        <p>${formatarData(mesa.data)} às ${mesa.hora}</p>
+                        <p>${formatarData(mesa.data)} às ${horaFormatada}</p>
                         <p>Status: ${mesa.status.toUpperCase()}</p>
                     </div>
                 `;

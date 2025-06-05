@@ -6,19 +6,28 @@ const formCancel = document.querySelector('#form-cancelar');
 formReserva.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const dataInput = document.querySelector('#data').value;
-    const dataReserva = new Date(dataInput);
-    const hoje = new Date();
-    hoje.setHours(0, 0, 0, 0);
+    const dataInput = document.querySelector('#data').value; 
+    const horaInput = document.querySelector('#hora').value; 
 
-    // Validação no frontend
-    if (dataReserva < hoje) {
-        showMessage('Não é possível fazer reservas para datas passadas', 'error');
+    if (!dataInput || !horaInput) {
+        showMessage('Por favor, selecione a data e a hora.', 'error');
         return;
     }
 
-    if (dataReserva.getFullYear() < hoje.getFullYear()) {
-        showMessage('Não é possível fazer reservas para anos anteriores', 'error');
+    // Junta a data e a hora no formato ISO
+    const dataHoraStr = `${dataInput}T${horaInput}`;
+
+    const dataReserva = new Date(dataHoraStr);
+    const agora = new Date();
+
+    
+    if (dataReserva.getTime() < agora.getTime()) {
+        showMessage('Não é possível fazer reservas para datas e horas passadas ou iguais à atual.', 'error');
+        return;
+    }
+
+    if (dataReserva.getTime() < agora.getTime() + 15 * 60 * 1000) {
+        showMessage('Reservas podem ser feitas com no mínimo 15 minutos de antecedência.', 'error');
         return;
     }
 
@@ -29,6 +38,27 @@ formReserva.addEventListener('submit', async (e) => {
         qtd_pessoas: document.querySelector('#qtd-pessoas').value,
         nome_responsavel: document.querySelector('#nome-responsavel').value
     };
+
+    if (!reserva.data || !reserva.hora || !reserva.numero_mesa || !reserva.qtd_pessoas || !reserva.nome_responsavel) {
+        showMessage('Preencha todos os campos', 'error');
+        return;
+    }
+
+    if (reserva.qtd_pessoas <= 0) {
+        showMessage('Quantidade de pessoas deve ser maior que zero', 'error');
+        return;
+    }
+
+    const regex = /\p{L}+/gu;
+    if (!regex.test(reserva.nome_responsavel)) {
+        showMessage('Insira um nome válido', 'error');
+        return;
+    }
+
+    if (reserva.nome_responsavel.startsWith(' ') || reserva.nome_responsavel.endsWith(' ')) {
+        showMessage('O nome nao pode iniciar ou terminar com espaços', 'error');
+        return;
+    }
 
     try {
         const response = await fetch(`${urlDaAPI}/reservas`, {

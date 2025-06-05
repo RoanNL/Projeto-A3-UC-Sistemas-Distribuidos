@@ -81,12 +81,15 @@ function displayPeriodReport(reportData) {
   // Preenche a tabela com os dados
   reportData.data.forEach(reserva => {
     const statusClass = reserva.status.toLowerCase();
-    const dataFormatada = new Date(reserva.data).toLocaleDateString('pt-BR');
+    const horaFormatada = reserva.hora
+        ? reserva.hora.substring(0, 5)
+        : '--:--';
+      const status = reserva.status?.toLowerCase() || '';
 
     html += `
           <tr>
-              <td>${dataFormatada}</td>
-              <td>${reserva.hora}</td>
+              <td>${formatarData(reserva.data)}</td>
+              <td>${horaFormatada}</td>
               <td>${reserva.numero_mesa}</td>
               <td>${reserva.qtd_pessoas}</td>
               <td>${reserva.nome_responsavel}</td>
@@ -133,19 +136,21 @@ function displayMesaReport(data) {
 
   // Cria o cabeçalho do relatório
   let html = `
-      <div class="report-header">
-          <h3>Relatório da Mesa ${data.data[0]?.numero_mesa || 'N/A'}</h3>
-          <div class="report-summary">
-                  <div class="report-summary-item report-summary-total">
+      <div class="report-container">
+        <div class="report-header">
+            <h3>Relatório da Mesa ${data.data[0]?.numero_mesa || 'N/A'}</h3>
+            <div class="report-summary">
+                    <div class="report-summary-item report-summary-total">
                       Total: ${data.resumo?.total || 0}
-                  </div>
-                  <div class="report-summary-item report-summary-confirmed">
+                    </div>
+                    <div class="report-summary-item report-summary-confirmed">
                       Confirmadas: ${data.resumo?.confirmadas || 0}
-                  </div>
-                  <div class="report-summary-item report-summary-cancelled">
+                    </div>
+                    <div class="report-summary-item report-summary-cancelled">
                       Canceladas: ${data.resumo?.canceladas || 0}
-                  </div>
+                    </div>
               </div>
+        </div>
   `;
 
   // Cria a tabela apenas se houver dados
@@ -167,14 +172,17 @@ function displayMesaReport(data) {
 
     data.data.forEach(reserva => {
       const statusClass = reserva.status.toLowerCase();
-      const dataFormatada = new Date(reserva.data).toLocaleDateString('pt-BR');
+      const horaFormatada = reserva.hora
+        ? reserva.hora.substring(0, 5)
+        : '--:--';
+      const status = reserva.status?.toLowerCase() || '';
 
       html += `
               <tr class="${statusClass}">
-                  <td>${dataFormatada}</td>
-                  <td>${reserva.hora}</td>
+                  <td>${formatarData(reserva.data)}</td>
+                  <td>${horaFormatada}</td>
                   <td>${reserva.qtd_pessoas}</td>
-                  <td>${reserva.nome_responsavel}</td>
+                  <td>${reserva.nome_responsavel || 'Não informado'}</td>
                   <td><span class="status-badge ${statusClass}">${reserva.status.toUpperCase()}</span></td>
                   <td>${reserva.garcom_responsavel || '-'}</td>
               </tr>
@@ -266,9 +274,6 @@ function displayGarcomReport(reportData) {
       `;
 
     reservas.forEach(reserva => {
-      const dataFormatada = reserva.data
-        ? new Date(reserva.data).toLocaleDateString('pt-BR')
-        : '--/--/----';
       const horaFormatada = reserva.hora
         ? reserva.hora.substring(0, 5)
         : '--:--';
@@ -276,7 +281,7 @@ function displayGarcomReport(reportData) {
 
       html += `
               <tr>
-                  <td>${dataFormatada}</td>
+                  <td>${formatarData(reserva.data)}</td>
                   <td>${horaFormatada}</td>
                   <td>${reserva.numero_mesa}</td>
                   <td>${reserva.qtd_pessoas}</td>
@@ -331,6 +336,12 @@ function showMessage(message, type = 'info', duration = 5000) {
       msgDiv.style.display = 'none';
     }, duration);
   }
+}
+
+function formatarData(dataISO) {
+  if (!dataISO) return '';
+  const [ano, mes, dia] = dataISO.split('T')[0].split('-');
+  return `${dia}/${mes}/${ano}`;
 }
 
 // Carrega os garçons ao iniciar
