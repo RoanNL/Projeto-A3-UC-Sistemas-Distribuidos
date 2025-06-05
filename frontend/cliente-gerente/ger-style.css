@@ -1,10 +1,13 @@
 :root {
-    --primary-color: #f39c12;
-    --primary-dark: #e67e22;
+    --primary-color: #0a1831;
+    --primary-dark: #041c52;
 }
 
 body {
-    background-color: #f8f9fa;
+    font-family: "Barlow Condensed";
+    line-height: 1.6;
+    color: #333;
+    background-color: #d0c6ac;
 }
 
 .header {
@@ -28,25 +31,35 @@ body {
 }
 
 .card {
-    background: white;
+    background: rgb(247, 243, 243);
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     padding: 30px;
     margin-bottom: 30px;
 }
 
+.card:hover {
+    transform:scale(1.01);
+}
+
 .card h2 {
     color: var(--primary-dark);
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 2px solid #eee;
+    border-bottom: 2px solid #000000;
 }
 
-.btn-primary {
+.btn {
     background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-.btn-primary:hover {
+.btn:hover {
     background-color: var(--primary-dark);
 }
 
@@ -59,6 +72,7 @@ body {
     text-decoration: none;
     margin-top: 20px;
     transition: background-color 0.3s;
+    margin-bottom: 20px;
 }
 
 .btn-back:hover {
@@ -67,8 +81,12 @@ body {
 
 input,
 select {
+    width: 100%;
+    padding: 12px;
     border: 1px solid #ddd;
-    transition: border 0.3s;
+    border-radius: 4px;
+    margin: 8px 0;
+    font-size: 16px;
 }
 
 input:focus,
@@ -77,15 +95,79 @@ select:focus {
     outline: none;
 }
 
-.table-responsive {
-    overflow-x: auto;
+/* Estilos para todas as tabelas de relatório */
+.report-container {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-.status-reservada {
-    color: #3498db;
+.report-header {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eee;
+}
+
+.report-summary {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.report-summary-item {
+    padding: 8px 15px;
+    border-radius: 20px;
     font-weight: bold;
 }
 
+.report-summary-total {
+    background-color: #e8f4fd;
+    color: #004085;
+    border-left: 4px solid #3498db;
+}
+
+.report-summary-confirmed {
+    background-color: #e6f7ee;
+    color: #155724;
+    border-left: 4px solid #2ecc71;
+}
+
+.report-summary-cancelled {
+    background-color: #fde8e8;
+    color: #721c24;
+    border-left: 4px solid #e74c3c;
+}
+
+.report-table {
+    width: 100%;
+    border-collapse: collapse; 
+    margin-top: 20px;
+}
+
+.report-table th {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.report-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ffffff;
+}
+
+.report-table tr:last-child td {
+    border-bottom: none;
+}
+
+.report-table tr:hover {
+    background-color: #d6d9db;
+}
+
+/* Estilos específicos para status */
 .status-confirmada {
     color: #2ecc71;
     font-weight: bold;
@@ -94,7 +176,30 @@ select:focus {
 .status-cancelada {
     color: #e74c3c;
     font-weight: bold;
-    text-decoration: line-through;
+}
+
+.status-reservada {
+    color: #f39c12;
+    font-weight: bold;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.status-badge.confirmada {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-badge.cancelada {
+    background-color: #f8d7da;
+    color: #721c24;
 }
 
 .no-results {
@@ -104,39 +209,80 @@ select:focus {
     font-style: italic;
 }
 
-.report-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
+/* Estilos específicos para o relatório de garçons */
 .garcom-section {
     margin-bottom: 30px;
     padding: 15px;
     background-color: #f8f9fa;
     border-radius: 5px;
+    border-left: 4px solid var(--primary-color);
 }
 
-.garcom-section h3 {
+.garcom-section h4 {
     color: #2c3e50;
-    margin-bottom: 15px;
+    font-size: 1.2rem;
+    margin: 20px 0 10px 0;
     padding-bottom: 5px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 2px solid #f39c12;
+    font-weight: bold;
 }
 
-.report-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.report-table th,
-.report-table td {
-    padding: 10px 12px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
-
-.report-table th {
-    background-color: #4CAF50;
+.badge {
+    background-color: var(--primary-color);
     color: white;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    margin-left: 10px;
+}
+
+/* Estilos para o filtro */
+.filter-container {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-container label {
+    font-weight: bold;
+    color: #333;
+}
+
+.form-control {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    min-width: 200px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .report-table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .report-summary {
+        flex-direction: column;
+        gap: 8px;
+    }
 }
