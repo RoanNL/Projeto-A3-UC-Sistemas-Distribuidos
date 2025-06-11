@@ -1,8 +1,10 @@
 # Projeto-A3-UC-Sistemas-Distribuidos  
-**Documentação de Instalação via Docker**  
+**Documentação de Instalação**  
 **Disciplina:** Sistemas Distribuídos e Mobile  
 **Turma:** Quarta/Matutino  
 **Data de Entrega:** 11/06/2025  
+
+* Neste arquivo Readme será indentificado apenas o passo a passo de instalação para o funcionamento da aplicação, a documentação detalhada solicitada para o projeto é o Documentação.pdf, localizado na pasta raiz do projeto, siga os passos a risca, instale o Docker e o Docker-Compose via terminal caso esteja utilizando o linux, mas caso esteja utilizando o windows, apenas instale o Docker Desktop, os passos são separados em Linux/Mac ou Windows, tendo o passo a passo para qualquer um dos cenérios de ambiente para a instalação, esperamos que gostem do projeto!!  
 
 ---
 
@@ -10,9 +12,9 @@
 
 ## 1.1. Pré-requisitos
 | **Componente**       | **Linux/Mac** | **Windows** | **Link** |
-|----------------------|--------------|------------|----------|
-| Docker              | `sudo apt install docker.io` | Docker Desktop | [docker.com](https://docker.com) |
-| Docker Compose      | `sudo apt install docker-compose` | Incluído no Docker Desktop | - |
+|----------------------|---------------|-------------|----------|
+| Docker               | `sudo apt install docker.io` | Docker Desktop | [docker.com](https://docker.com) |
+| Docker Compose       | `sudo apt install docker-compose` | Incluído no Docker Desktop | - |
 
 ---
 
@@ -21,13 +23,13 @@
 
 ### Linux/Mac:
 
-**passo 1: Baixe a pasta raiz do projeto pelo github**
+* **passo 1: Baixe a pasta raiz do projeto pelo github**
 
-**passo 2: Acesse a pasta raiz (Projeto-A3-UC-Sistemas-Distribuido)**
+* **passo 2: Acesse a pasta raiz (Projeto-A3-UC-Sistemas-Distribuido)**
 
-**passo 3: Crie um arquivo para as variáveis ambiente (.env)**
+* **passo 3: Crie um arquivo para as variáveis ambiente (.env)**
 
-**passo 4: abra o .env como bloco de notas e coloque esses comandos:**
+* **passo 4: abra o .env como bloco de notas e coloque esses comandos:**
 
 ```
 DB_USER=postgres
@@ -36,18 +38,18 @@ DB_NAME=restaurant_reservations
 PORT=3000
 ```
 
-**passo 5: Salve o bloco de notas e saia**
+* **passo 5: Salve o bloco de notas e saia**
 
 
 ### Windows (PowerShell):
 
-**passo 1: Baixe a pasta raiz do projeto pelo github**
+* **passo 1: Baixe a pasta raiz do projeto pelo github**
 
-**passo 2: Acesse a pasta raiz (Projeto-A3-UC-Sistemas-Distribuido)**
+* **passo 2: Acesse a pasta raiz (Projeto-A3-UC-Sistemas-Distribuido)**
 
-**passo 3: Crie um arquivo para as variáveis ambiente (.env)**
+* **passo 3: Crie um arquivo para as variáveis ambiente (.env)**
 
-**passo 4: abra o .env como bloco de notas e coloque esses comandos:**
+* **passo 4: abra o .env como bloco de notas e coloque esses comandos:**
 
 ```
 DB_USER=postgres
@@ -56,7 +58,7 @@ DB_NAME=restaurant_reservations
 PORT=3000
 ```
 
-**passo 5: Salve o bloco de notas e saia**
+* **passo 5: Salve o bloco de notas e saia**
 
 # 3. Execução do Sistema
 ## 3.1. Iniciando os Containers
@@ -67,21 +69,21 @@ Construa e inicie os containers:
 
 Abra o terminal na pasta raiz:
 
-**passo 1: abra a pasta raiz (Projeto-A3-UC-Sistemas-Distribuido)**
+* **passo 1: abra a pasta raiz (Projeto-A3-UC-Sistemas-Distribuido)**
 
-**passo 2: clique com o botão direito do mouse e selecione a opção (abrir no terminal)**
+* **passo 2: clique com o botão direito do mouse e selecione a opção (abrir no terminal)**
 
-**passo 3: rode o comando abaixo:**
+* **passo 3: rode o comando abaixo:**
 
 **bash**
 
 `docker-compose up --build -d`
 
-Verifique os logs:
+* Verifique os logs:
 
 `docker-compose logs -f backend`
 
-saida esperada:
+* saida esperada:
 
 ```
  🚀 Servidor rodando na porta 3000
@@ -90,28 +92,28 @@ saida esperada:
 
 ### Windows:
 
-Construa e inicie os containers:
+* Construa e inicie os containers:
 
-**Abra o Docker Desktop no seu computador**
+* **Abra o Docker Desktop no seu computador**
 
-Abra o terminal na pasta raiz:
+* Abra o terminal na pasta raiz:
 
-**passo 1: abra a pasta raiz (Projeto-A3-UC-Sistemas-Distribuido)**
+* **passo 1: abra a pasta raiz (Projeto-A3-UC-Sistemas-Distribuido)**
 
-**passo 2: clique com o botão direito do mouse e selecione a opção (abrir no terminal)**
+* **passo 2: clique com o botão direito do mouse e selecione a opção (abrir no terminal)**
 
-**passo 3: rode o comando abaixo:**
+* **passo 3: rode o comando abaixo:**
 
 **powershell**
 
 `docker-compose up --build -d`
 
-Verifique os logs:
+* Verifique os logs:
 
 `docker-compose logs -f backend`
 
 
-saida esperada:
+* saida esperada:
 
 ```
  🚀 Servidor rodando na porta 3000
@@ -122,23 +124,23 @@ saida esperada:
 
 ### Linux/Mac:
 
-Abra o terminal na pasta raiz:
+* Abra o terminal na pasta raiz:
 
-**passo 1: abra a pasta raiz (Projeto-A3-UC-Sistemas-Distribuido)**
+* **passo 1: abra a pasta raiz (Projeto-A3-UC-Sistemas-Distribuido)**
 
-**passo 2: clique com o botão direito do mouse e selecione a opção (abrir no terminal)**
+* **passo 2: clique com o botão direito do mouse e selecione a opção (abrir no terminal)**
 
-**passo 3: rode o comando abaixo:**
+* **passo 3: rode o comando abaixo:**
 
 **bash**
 
 `docker-compose exec db psql -U postgres -d restaurant_reservations`
 
-digite para ver as tabelas:
+* digite para ver as tabelas:
 
 `\dt`
 
-saida esperada:
+* saida esperada:
 
 |Schema|Name|Type|Owner|
 |------|----|----|-----|
@@ -148,19 +150,19 @@ saida esperada:
 
 ### Windows:
 
-Abra o terminal na pasta raiz:
+* Abra o terminal na pasta raiz:
 
-**passo 1: abra a pasta raiz (Projeto-A3-UC-Sistemas-Distribuido)**
+* **passo 1: abra a pasta raiz (Projeto-A3-UC-Sistemas-Distribuido)**
 
-**passo 2: clique com o botão direito do mouse e selecione a opção (abrir no terminal)**
+* **passo 2: clique com o botão direito do mouse e selecione a opção (abrir no terminal)**
 
-**passo 3: rode o comando abaixo:**
+* **passo 3: rode o comando abaixo:**
 
-**powershell**
+ **powershell**
 
 `docker-compose exec db psql -U postgres -d restaurant_reservations`
 
-digite para ver as tabelas:
+* digite para ver as tabelas:
 
 `\dt`
 
@@ -185,12 +187,12 @@ saida esperada:
 
 **bash**
 
-Reiniciar um serviço específico:
+* Reiniciar um serviço específico:
 
 `docker-compose restart backend`
 `docker-compose restart frontend`
 
-Limpar tudo:
+* Limpar tudo:
 
 `docker-compose down -v`
 
@@ -198,12 +200,12 @@ Limpar tudo:
 
 **powershell**
 
-Reiniciar um serviço específico:
+* Reiniciar um serviço específico:
 
 `docker-compose restart backend`
 `docker-compose restart frontend`
 
-Limpar tudo:
+* Limpar tudo:
 
 `docker-compose down -v`
 
@@ -224,13 +226,15 @@ Node.js (Backend:3000)
 PostgreSQL (db:5432)
 
 # Equipe:
-**Roan Nascimento Lisboa (Backend)**
+* **Roan Nascimento Lisboa - Backend e Banco de dados**
 
-**Alice Martins Bahiense Bezerra Bauler (Frontend)**
+* **Alice Martins Bahiense Bezerra Bauler - Frontend e edição do video**
 
-**Catarina dos Santos Romeiro (Frontend)**
+* **Catarina dos Santos Romeiro - Frontend**
 
-**Eduardo Copque da Silva (Documentação/Backend)**
+* **Eduardo Copque da Silva - Documentação e Backend**
 
-**Repositório:** https://github.com/RoanNL/Projeto-A3-UC-Sistemas-Distribuidos
+**Repositório:** [Github](https://github.com/RoanNL/Projeto-A3-UC-Sistemas-Distribuidos)
+
+**Vídeo de demonstração:** [YouTube](https://youtu.be/gZ9wGOkPEmg)
 
